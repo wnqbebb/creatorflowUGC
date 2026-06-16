@@ -1,0 +1,8 @@
+# Ignore large video files (Vercel has 100MB limit per file)
+*.mp4
+*.MP4
+*.mov
+*.avi
+
+# Ignore scratch files
+scratch/

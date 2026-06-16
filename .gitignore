@@ -1,0 +1,11 @@
+# Ignore large video files (GitHub has 100MB limit)
+*.mp4
+*.MP4
+*.mov
+*.avi
+
+# Ignore Vercel local settings
+.vercel
+
+# Ignore scratch scripts and local frames
+scratch/
