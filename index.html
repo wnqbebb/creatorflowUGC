@@ -948,7 +948,7 @@ html,body{margin:0;background:#050C0B}
   </footer>
 
   <!-- TERMS AND CONDITIONS MODAL -->
-  <sc-if value="{{ openTerms }}">
+  <sc-if value="{{ openTerms }}" hint-placeholder-val="{{ false }}">
     <div style="position:fixed; inset:0; z-index:100; display:flex; align-items:center; justify-content:center; padding:20px; background:rgba(3,8,7,0.85); backdrop-filter:blur(12px); animation:fadeIn 0.3s ease;">
       <div style="background:rgba(11,24,23,0.95); border:1px solid rgba(0,255,234,0.18); border-radius:24px; padding:clamp(24px,4vw,40px); max-width:680px; width:100%; max-height:80vh; overflow-y:auto; box-shadow:0 20px 50px rgba(0,255,234,0.1); position:relative;">
         <button onClick="{{ toggleTerms }}" style="position:absolute; top:20px; right:20px; background:none; border:none; color:rgba(240,244,243,0.5); font-size:24px; cursor:pointer; transition:color 0.2s;" onmouseenter="this.style.color='#00FFEA'" onmouseleave="this.style.color='rgba(240,244,243,0.5)'">×</button>
@@ -991,7 +991,7 @@ html,body{margin:0;background:#050C0B}
   </sc-if>
 
   <!-- PRIVACY POLICY MODAL -->
-  <sc-if value="{{ openPrivacy }}">
+  <sc-if value="{{ openPrivacy }}" hint-placeholder-val="{{ false }}">
     <div style="position:fixed; inset:0; z-index:100; display:flex; align-items:center; justify-content:center; padding:20px; background:rgba(3,8,7,0.85); backdrop-filter:blur(12px); animation:fadeIn 0.3s ease;">
       <div style="background:rgba(11,24,23,0.95); border:1px solid rgba(0,255,234,0.18); border-radius:24px; padding:clamp(24px,4vw,40px); max-width:680px; width:100%; max-height:80vh; overflow-y:auto; box-shadow:0 20px 50px rgba(0,255,234,0.1); position:relative;">
         <button onClick="{{ togglePrivacy }}" style="position:absolute; top:20px; right:20px; background:none; border:none; color:rgba(240,244,243,0.5); font-size:24px; cursor:pointer; transition:color 0.2s;" onmouseenter="this.style.color='#00FFEA'" onmouseleave="this.style.color='rgba(240,244,243,0.5)'">×</button>
