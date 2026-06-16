@@ -190,6 +190,115 @@ html,body{margin:0;background:#050C0B}
 @keyframes faqFadeIn {
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* Responsive Grid of 4 Columns */
+.dnd-grid-four {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+@media(max-width:960px){
+  .dnd-grid-four {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media(max-width:520px){
+  .dnd-grid-four {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Play Button Overlay Styles */
+.cf-play-btn {
+  opacity: 0.85;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.cf-card:hover .cf-play-btn {
+  transform: translate(-50%, -50%) scale(1.1) !important;
+  border-color: #00FFEA !important;
+  background: rgba(11, 24, 23, 0.8) !important;
+  box-shadow: 0 0 20px rgba(0, 255, 234, 0.3);
+}
+.cf-card.is-playing .cf-play-btn {
+  opacity: 0;
+  pointer-events: none;
+}
+.cf-card.is-playing:hover .cf-play-btn {
+  opacity: 0.8;
+  pointer-events: auto;
+}
+
+/* Services Responsive Grid & Micro-animations */
+.dnd-services-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+@media(max-width:1200px){
+  .dnd-services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media(max-width:768px){
+  .dnd-services-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.services-card {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  background: rgba(11, 24, 23, 0.45) !important;
+  border: 1px solid rgba(240, 244, 243, 0.07) !important;
+  backdrop-filter: blur(16px);
+  position: relative;
+  overflow: hidden;
+}
+.services-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(350px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(0, 255, 234, 0.08), transparent 70%);
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.services-card:hover::before {
+  opacity: 1;
+}
+.services-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(0, 255, 234, 0.25) !important;
+  box-shadow: 0 12px 40px rgba(0, 255, 234, 0.06);
+}
+.services-card.card-monthly:hover {
+  border-color: rgba(181, 255, 0, 0.3) !important;
+  box-shadow: 0 12px 40px rgba(181, 255, 0, 0.06);
+}
+
+/* Redesigned Premium FAQ cards */
+.faq-card {
+  border-bottom: 1px solid rgba(240, 244, 243, 0.06);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 8px 20px;
+  border-radius: 16px;
+  margin-bottom: 10px;
+  background: rgba(11, 24, 23, 0.15);
+  border-left: 3px solid transparent;
+}
+.faq-card:hover {
+  background: rgba(11, 24, 23, 0.3);
+  border-left-color: rgba(0, 255, 234, 0.3);
+}
+.faq-card.is-open {
+  background: rgba(11, 24, 23, 0.5) !important;
+  border-left: 3px solid #00FFEA !important;
+  border-bottom-color: rgba(0, 255, 234, 0.15) !important;
+  box-shadow: 0 10px 30px rgba(0, 255, 234, 0.03);
+}
 </style>
 </helmet>
 
@@ -206,11 +315,7 @@ html,body{margin:0;background:#050C0B}
     <a href="#top" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:20px;letter-spacing:-.03em;color:#F0F4F3;text-decoration:none">{{ brand }}<span style="color:#00FFEA">.</span></a>
     <nav class="dnd-nav-links" style="display:flex;gap:24px;align-items:center;font-size:13px">
       <a href="#trabajo" class="nav-link">{{ t.nav.work }}</a>
-      <a href="#casos" class="nav-link">{{ t.nav.cases }}</a>
       <a href="#servicios" class="nav-link">{{ t.nav.services }}</a>
-      <a href="#moda" class="nav-link">{{ t.nav.fashion }}</a>
-      <a href="#metodo" class="nav-link">{{ t.nav.method }}</a>
-      <a href="#estudio" class="nav-link">{{ t.nav.about }}</a>
     </nav>
     <div style="display:flex;align-items:center;gap:16px">
       <div style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700">
@@ -218,7 +323,6 @@ html,body{margin:0;background:#050C0B}
         <span style="color:rgba(240, 244, 243, .2)">/</span>
         <button class="lang-btn" onClick="{{ setEs }}" style="{{ esStyle }}">ES</button>
       </div>
-      <a href="#contacto" id="cf-book-btn" style="background:#00FFEA;color:#050C0B;padding:10px 20px;border-radius:100px;font-weight:700;font-size:13px;text-decoration:none;white-space:nowrap;transition:transform .2s,box-shadow .2s" onmouseenter="this.style.transform='scale(1.05)';this.style.boxShadow='0 0 24px rgba(0,255,234,.4)'" onmouseleave="this.style.transform='';this.style.boxShadow=''">{{ t.nav.book }}</a>
     </div>
   </header>
 
@@ -231,33 +335,20 @@ html,body{margin:0;background:#050C0B}
     <div style="position:absolute;top:-120px;right:-100px;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(0,255,234,.055) 0%,transparent 65%);pointer-events:none;animation:cforb 9s ease infinite;z-index:0"></div>
     <div style="position:absolute;bottom:-80px;left:-80px;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(11,122,117,.07) 0%,transparent 65%);pointer-events:none;animation:cforb 13s ease infinite 1s;z-index:0"></div>
 
-    <div style="position:relative;z-index:1;display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap">
-      <span data-intro style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#00FFEA">{{ t.hero.kicker }}</span>
-      <div style="text-align:right;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(240,244,243,.45)">{{ timeStr }} — {{ t.hero.place }}</div>
+    <div style="position:relative;z-index:1;display:flex;justify-content:center;align-items:flex-start;gap:20px;flex-wrap:wrap;margin-bottom:16px;">
+      <span data-intro style="display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#00FFEA;background:rgba(0,255,234,0.05);border:1px solid rgba(0,255,234,0.18);padding:6px 16px;border-radius:100px;font-weight:700;box-shadow:0 0 20px rgba(0,255,234,0.04);backdrop-filter:blur(8px);">
+        <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#00FFEA;box-shadow:0 0 8px #00FFEA;animation:cfpulse 2s infinite alternate;"></span>
+        {{ t.hero.kicker }}
+      </span>
     </div>
     
-    <!-- Two-column content layout -->
-    <div class="hero-container">
-      <!-- Left text content -->
-      <div class="hero-left">
-        <h1 data-intro style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(2.5rem,6.2vw,6.2rem);line-height:.95;letter-spacing:-.04em;margin:0;max-width:16ch">{{ t.hero.title }}</h1>
+    <!-- Centered content layout -->
+    <div class="hero-container" style="justify-content:center;text-align:center;margin:48px auto;max-width:900px;width:100%">
+      <!-- Centered text content -->
+      <div class="hero-left" style="display:flex;flex-direction:column;align-items:center;flex:1">
+        <h1 data-intro style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(3.5rem,8vw,7rem);line-height:.88;letter-spacing:-.04em;margin:0;max-width:18ch;background:linear-gradient(135deg, #FFFFFF 15%, #00FFEA 50%, #B5FF00 90%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">{{ t.hero.title }}</h1>
         <p data-intro style="max-width:50ch;font-size:clamp(15px,1.4vw,18px);line-height:1.55;color:rgba(240,244,243,.62);margin:24px 0 32px">{{ t.hero.sub }}</p>
         <a href="#trabajo" data-intro style="display:inline-flex;align-items:center;gap:12px;border:1px solid rgba(240,244,243,.2);border-radius:100px;padding:14px 26px;color:#F0F4F3;text-decoration:none;font-size:14px;white-space:nowrap;transition:border-color .2s,background .2s" onmouseenter="this.style.borderColor='#00FFEA';this.style.background='rgba(0,255,234,.06)'" onmouseleave="this.style.borderColor='rgba(240,244,243,.2)';this.style.background=''">{{ t.hero.cta }} <span style="color:#00FFEA">↓</span></a>
-      </div>
-      
-      <!-- Right Hero Video Preview -->
-      <div class="hero-right">
-        <div data-intro id="hero-preview-wrap" style="position:relative;width:100%;max-width:300px;aspect-ratio:9/16;border-radius:20px;overflow:hidden;background:#0B1817;border:1px solid rgba(0,255,234,0.15);box-shadow:0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(0,255,234,0.05);cursor:pointer;transition:transform 0.4s ease, border-color 0.4s ease" onmouseenter="this.style.transform='translateY(-6px)';this.style.borderColor='#00FFEA'" onmouseleave="this.style.transform='';this.style.borderColor='rgba(0,255,234,0.15)'">
-          <video id="hero-preview-vid" src="https://res.cloudinary.com/drprrdhyp/video/upload/v1781577274/ed8dbydtcowqcyhdxqss.mp4" poster="https://res.cloudinary.com/drprrdhyp/image/upload/v1781577258/pynak6pw3yeqq2x8vshh.jpg" muted playsinline loop preload="none" style="width:100%;height:100%;object-fit:cover;opacity:.88"></video>
-          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(5,12,11,.65) 0%,transparent 50%)"></div>
-          <div id="hero-preview-overlay" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transition:opacity .35s">
-            <div style="width:64px;height:64px;border-radius:50%;border:2px solid #00FFEA;display:flex;align-items:center;justify-content:center;font-size:20px;color:#00FFEA;background:rgba(5,12,11,.4);animation:cfpulse 2.5s ease infinite">▶</div>
-          </div>
-          <div style="position:absolute;bottom:16px;left:16px;pointer-events:none">
-            <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:14px;color:#F0F4F3">{{ t.work.featured }}</div>
-            <div style="font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#00FFEA;margin-top:3px">Karaama London</div>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -272,59 +363,144 @@ html,body{margin:0;background:#050C0B}
     </div>
   </section>
 
-  <!-- MANIFESTO -->
-  <section style="padding:clamp(80px,12vw,170px) clamp(20px,4vw,56px)">
-    <span data-reveal style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:rgba(240,244,243,.4)">{{ t.manifesto.label }}</span>
-    <p data-reveal style="font-family:'Instrument Serif',serif;font-size:clamp(1.7rem,4.6vw,3.8rem);line-height:1.17;letter-spacing:-.01em;margin:26px 0 0;max-width:26ch">{{ t.manifesto.big }}</p>
-    <span data-reveal style="display:inline-block;margin-top:28px;font-family:'Instrument Serif',serif;font-style:italic;font-size:clamp(1.1rem,2vw,1.5rem);color:#00FFEA">{{ t.manifesto.sign }}</span>
+  <!-- MANIFESTO SECTION WITH WOW EFFECT -->
+  <section style="position:relative; padding:clamp(80px,12vw,160px) clamp(20px,4vw,56px); overflow:hidden; background:#050c0b;">
+    <!-- Large breathing color orb behind manifesto -->
+    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:600px; height:600px; border-radius:50%; background:radial-gradient(circle, rgba(0, 255, 234, 0.12) 0%, rgba(11, 122, 117, 0.04) 45%, transparent 70%); pointer-events:none; z-index:0; animation:cforb 10s ease infinite;"></div>
+
+    <div data-reveal style="position:relative; z-index:1; max-width:1200px; margin:0 auto; padding:clamp(32px, 5vw, 64px) clamp(24px, 4vw, 48px); border-radius:32px; background:rgba(11, 24, 23, 0.45); border:1px solid rgba(0, 255, 234, 0.12); backdrop-filter:blur(24px); box-shadow:0 30px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);">
+      <span style="font-size:11px; letter-spacing:.25em; text-transform:uppercase; color:#00FFEA; display:block; margin-bottom:28px; font-weight:700;">{{ t.manifesto.label }}</span>
+      
+      <!-- Bilingual styled content -->
+      <sc-if value="{{ isEs }}" hint-placeholder-val="{{ true }}">
+        <p style="font-family:'Space Grotesk', sans-serif; font-size:clamp(1.4rem, 3vw, 2.5rem); line-height:1.35; letter-spacing:-.02em; margin:0; color:#F0F4F3; font-weight:500;">
+          <span style="color:#00FFEA; font-weight:700; text-shadow: 0 0 30px rgba(0,255,234,0.35);">El feed nunca para.</span> 
+          La mayoría de las marcas no aguanta el ritmo — publican lento, genérico y olvidable. 
+          CreatorFlow convierte los mejores modelos de IA en un 
+          <span style="background: linear-gradient(90deg, #00FFEA, #B5FF00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight:700;">motor de contenido</span>: 
+          UGC, moda y 3D que parecen <span style="font-family:'Instrument Serif', serif; font-style:italic; font-weight:400; color:#00FFEA;">rodados</span>, no generados.
+        </p>
+      </sc-if>
+      <sc-if value="{{ !isEs }}" hint-placeholder-val="{{ false }}">
+        <p style="font-family:'Space Grotesk', sans-serif; font-size:clamp(1.4rem, 3vw, 2.5rem); line-height:1.35; letter-spacing:-.02em; margin:0; color:#F0F4F3; font-weight:500;">
+          <span style="color:#00FFEA; font-weight:700; text-shadow: 0 0 30px rgba(0,255,234,0.35);">The feed never stops.</span> 
+          Most brands can't keep up — posting slow, generic, and forgettable. 
+          CreatorFlow turns the best AI models into a 
+          <span style="background: linear-gradient(90deg, #00FFEA, #B5FF00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight:700;">content engine</span>: 
+          scroll-stopping UGC, fashion, and 3D that look <span style="font-family:'Instrument Serif', serif; font-style:italic; font-weight:400; color:#00FFEA;">shot</span>, not generated.
+        </p>
+      </sc-if>
+      
+      <span style="display:inline-block; margin-top:36px; font-family:'Instrument Serif', serif; font-style:italic; font-size:clamp(1.2rem, 2.2vw, 1.8rem); color:#B5FF00; letter-spacing:0.02em;">{{ t.manifesto.sign }}</span>
+    </div>
   </section>
 
-  <!-- AI PIPELINE (static, bilingual via t) -->
-  <section style="padding:clamp(60px,8vw,100px) clamp(20px,4vw,56px);border-top:1px solid rgba(240,244,243,.09);overflow:hidden">
-    <div data-reveal style="margin-bottom:48px;display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:16px">
-      <div>
-        <span style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#00FFEA">{{ t.pipeline.label }}</span>
-        <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(2rem,5vw,3.8rem);letter-spacing:-.03em;margin:10px 0 0">{{ t.pipeline.title }}</h2>
-      </div>
-    </div>
-    <!-- Animated pipeline diagram -->
-    <div data-reveal style="overflow-x:auto;padding-bottom:8px">
-      <div style="display:flex;align-items:stretch;min-width:700px;gap:0;position:relative">
-        <sc-for list="{{ pipeline }}" as="pip" hint-placeholder-count="5">
-          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:16px;position:relative">
-            <!-- Node circle -->
-            <div style="width:52px;height:52px;border-radius:50%;border:1.5px solid #00FFEA;background:#050C0B;display:flex;align-items:center;justify-content:center;font-family:'Instrument Serif',serif;font-size:20px;color:#00FFEA;flex-shrink:0;animation:cfglow 3s ease infinite;z-index:2;position:relative">{{ pip.icon }}</div>
-            <!-- Connecting line to next -->
-            <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:clamp(14px,1.6vw,18px);letter-spacing:-.01em;text-align:center">{{ pip.name }}</div>
-            <div style="font-size:13px;color:rgba(240,244,243,.5);line-height:1.5;text-align:center;max-width:16ch">{{ pip.desc }}</div>
-          </div>
-        </sc-for>
-      </div>
-      <!-- SVG connecting line with traveling dot -->
-      <div data-reveal style="position:relative;margin-top:24px;height:2px;background:rgba(240,244,243,.08);border-radius:2px;overflow:visible;min-width:700px">
-        <div style="position:absolute;inset:0;background:linear-gradient(90deg,transparent,#00FFEA,transparent);background-size:30% 100%;animation:cfflow 2s linear infinite;border-radius:2px;opacity:.6"></div>
-      </div>
-    </div>
-  </section>
 
   <!-- SERVICES -->
-  <section data-screen-label="Services" id="servicios" style="padding:clamp(40px,6vw,80px) clamp(20px,4vw,56px) clamp(80px,12vw,150px);border-top:1px solid rgba(240,244,243,.09)">
-    <div data-reveal style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:16px;margin-bottom:30px">
-      <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(2.2rem,6vw,4.4rem);letter-spacing:-.03em;margin:0">{{ t.servicesTitle }}</h2>
-      <span style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#00FFEA">{{ t.servicesLabel }}</span>
-    </div>
-    <sc-for list="{{ services }}" as="s" hint-placeholder-count="6">
-      <div data-reveal style="display:grid;grid-template-columns:64px 1fr;gap:20px;padding:28px 10px;border-top:1px solid rgba(240,244,243,.09);transition:background .2s" onmouseenter="this.style.background='rgba(0,255,234,.035)'" onmouseleave="this.style.background=''">
-        <span style="font-family:'Instrument Serif',serif;font-size:28px;color:#00FFEA;line-height:1">{{ s.num }}</span>
+  <section data-screen-label="Services" id="servicios" style="padding:clamp(60px,8vw,120px) clamp(20px,4vw,56px); border-top:1px solid rgba(240,244,243,.09); background:#050c0b; position:relative; overflow:hidden;">
+    <!-- Background glowing accent behind services -->
+    <div style="position:absolute; top:20%; right:-100px; width:450px; height:450px; border-radius:50%; background:radial-gradient(circle, rgba(0, 255, 234, 0.05) 0%, transparent 70%); pointer-events:none; z-index:0;"></div>
+
+    <div data-reveal style="position:relative; z-index:1; max-width:1200px; margin:0 auto;">
+      <div style="display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:16px; margin-bottom:48px;">
         <div>
-          <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:clamp(1.4rem,3vw,2.2rem);margin:0 0 10px;letter-spacing:-.02em">{{ s.title }}</h3>
-          <p style="margin:0 0 16px;max-width:58ch;color:rgba(240,244,243,.56);line-height:1.55;font-size:clamp(14px,1.3vw,16px)">{{ s.desc }}</p>
-          <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <sc-for list="{{ s.tags }}" as="tag" hint-placeholder-count="3"><span class="tech-tag">{{ tag }}</span></sc-for>
+          <span style="font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:#00FFEA; font-weight:700;">{{ t.services.kicker }}</span>
+          <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:clamp(2.2rem,6vw,4rem); letter-spacing:-.03em; margin:10px 0 0; color:#F0F4F3;">{{ t.services.title }}</h2>
+        </div>
+        <p style="max-width:46ch; color:rgba(240,244,243,0.6); line-height:1.55; font-size:16px; margin:0;">{{ t.services.desc }}</p>
+      </div>
+
+      <!-- Services Grid Layout -->
+      <div class="dnd-services-grid" style="margin-top:40px;">
+        
+        <!-- Card 1: What We Do -->
+        <div class="services-card" style="border-radius:24px; padding:40px 32px; display:flex; flex-direction:column; justify-content:space-between; position:relative; z-index:1;">
+          <div style="position:relative; z-index:1;">
+            <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:24px; color:#00FFEA; margin:0 0 24px; letter-spacing:-0.01em;">{{ t.services.card1Title }}</h3>
+            <ul style="list-style:none; padding:0; margin:0; display:grid; gap:12px;">
+              <sc-for list="{{ t.services.list }}" as="item">
+                <li style="display:flex; align-items:center; gap:12px; font-size:15px; color:rgba(240, 244, 243, 0.82);">
+                  <span style="color:#00FFEA; font-size:16px;">✦</span> {{ item }}
+                </li>
+              </sc-for>
+            </ul>
           </div>
         </div>
+
+        <!-- Card 2: Specs & Details -->
+        <div class="services-card" style="border-radius:24px; padding:40px 32px; display:flex; flex-direction:column; justify-content:space-between; gap:32px; position:relative; z-index:1;">
+          <div style="position:relative; z-index:1;">
+            <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:24px; color:#00FFEA; margin:0 0 24px; letter-spacing:-0.01em;">{{ t.services.card2Title }}</h3>
+            
+            <div style="margin-bottom:24px;">
+              <h4 style="font-size:12px; text-transform:uppercase; letter-spacing:0.1em; color:rgba(240, 244, 243, 0.45); margin:0 0 6px;">{{ t.services.langLabel }}</h4>
+              <p style="margin:0; font-size:15px; color:#F0F4F3; line-height:1.5;">{{ t.services.langVal }}</p>
+            </div>
+
+            <div style="margin-bottom:24px;">
+              <h4 style="font-size:12px; text-transform:uppercase; letter-spacing:0.1em; color:rgba(240, 244, 243, 0.45); margin:0 0 6px;">{{ t.services.durLabel }}</h4>
+              <p style="margin:0; font-size:15px; color:#F0F4F3; line-height:1.5;">{{ t.services.durVal }}</p>
+            </div>
+
+            <div>
+              <h4 style="font-size:12px; text-transform:uppercase; letter-spacing:0.1em; color:rgba(240, 244, 243, 0.45); margin:0 0 6px;">{{ t.services.delLabel }}</h4>
+              <p style="margin:0; font-size:15px; color:#F0F4F3; line-height:1.5;">{{ t.services.delVal }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Delivery Options -->
+        <div class="services-card" style="border-radius:24px; padding:40px 32px; display:flex; flex-direction:column; justify-content:space-between; position:relative; z-index:1;">
+          <div style="position:relative; z-index:1;">
+            <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:24px; color:#00FFEA; margin:0 0 24px; letter-spacing:-0.01em;">{{ t.services.card3Title }}</h3>
+            
+            <!-- Option A -->
+            <div style="background:rgba(0, 255, 234, 0.03); border:1px solid rgba(0, 255, 234, 0.15); border-radius:16px; padding:20px; margin-bottom:20px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:16px; color:#00FFEA;">{{ t.services.optA }}</span>
+                <span style="background:#00FFEA; color:#050C0B; font-size:9px; font-weight:800; text-transform:uppercase; padding:3px 8px; border-radius:100px; letter-spacing:0.05em;">{{ t.services.optABadge }}</span>
+              </div>
+              <ul style="list-style:none; padding:0; margin:0; display:grid; gap:6px;">
+                <sc-for list="{{ t.services.optAList }}" as="opt">
+                  <li style="font-size:13px; color:rgba(240, 244, 243, 0.78); display:flex; align-items:center; gap:8px;">
+                    <span style="color:#00FFEA;">✓</span> {{ opt }}
+                  </li>
+                </sc-for>
+              </ul>
+            </div>
+
+            <!-- Option B -->
+            <div style="background:rgba(181, 255, 0, 0.03); border:1px solid rgba(181, 255, 0, 0.15); border-radius:16px; padding:20px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:16px; color:#B5FF00;">{{ t.services.optB }}</span>
+                <span style="background:#B5FF00; color:#050C0B; font-size:9px; font-weight:800; text-transform:uppercase; padding:3px 8px; border-radius:100px; letter-spacing:0.05em;">{{ t.services.optBBadge }}</span>
+              </div>
+              <ul style="list-style:none; padding:0; margin:0; display:grid; gap:6px;">
+                <sc-for list="{{ t.services.optBList }}" as="opt">
+                  <li style="font-size:13px; color:rgba(240, 244, 243, 0.78); display:flex; align-items:center; gap:8px;">
+                    <span style="color:#B5FF00;">✓</span> {{ opt }}
+                  </li>
+                </sc-for>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4: Monthly Plans -->
+        <div class="services-card card-monthly" style="border-radius:24px; padding:40px 32px; display:flex; flex-direction:column; justify-content:space-between; position:relative; z-index:1;">
+          <div style="position:relative; z-index:1;">
+            <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:24px; color:#B5FF00; margin:0 0 16px; letter-spacing:-0.01em;">{{ t.services.card4Title }}</h3>
+            <p style="margin:0 0 24px; font-size:15px; color:rgba(240, 244, 243, 0.85); line-height:1.55;">{{ t.services.card4Desc }}</p>
+            <p style="margin:0; font-size:14px; color:#00FFEA; font-weight:700;">{{ t.services.card4CTA }}</p>
+          </div>
+          <div style="position:relative; z-index:1; border-top:1px solid rgba(240, 244, 243, 0.08); padding-top:24px; margin-top:32px;">
+            <p style="margin:0 0 8px; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:#B5FF00; line-height:1.35;">{{ t.services.slogan1 }}</p>
+            <p style="margin:0; font-family:'Instrument Serif',serif; font-style:italic; font-size:16px; color:#00FFEA; line-height:1.35;">{{ t.services.slogan2 }}</p>
+          </div>
+        </div>
+
       </div>
-    </sc-for>
+    </div>
   </section>
 
   <!-- WORK -->
@@ -339,16 +515,26 @@ html,body{margin:0;background:#050C0B}
 
     <!-- 1. ANIMADOS SUBSECTION -->
     <div style="margin-bottom:64px">
-      <h3 data-reveal style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(1.5rem,3vw,2.2rem);color:#00FFEA;border-bottom:1px solid rgba(0,255,234,0.15);padding-bottom:12px;margin-bottom:24px;display:flex;align-items:center;gap:12px">
+      <h3 data-reveal style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(1.5rem,3vw,2.2rem);color:#00FFEA;border-bottom:1px solid rgba(0,255,234,0.15);padding-bottom:12px;margin-bottom:12px;display:flex;align-items:center;gap:12px">
         <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#00FFEA;box-shadow:0 0 10px #00FFEA"></span>
         {{ t.sections.animated }}
       </h3>
-      <div class="dnd-grid" style="grid-template-columns: repeat(2, 1fr); max-width: 800px; margin: 0 auto;">
+      <div data-reveal style="font-family:'Space Grotesk',sans-serif; font-size:11px; text-transform:uppercase; color:#00FFEA; letter-spacing:0.08em; margin-bottom:24px; display:flex; align-items:center; gap:8px; opacity:0.85;">
+        <span style="display:inline-block; width:6px; height:6px; background:#B5FF00; border-radius:50%; box-shadow:0 0 8px #B5FF00; animation:cfbreathe 1.5s ease infinite"></span>
+        {{ isEs ? 'Haz clic en cualquier video para reproducir' : 'Click on any video to play' }}
+      </div>
+      <div class="dnd-grid-four">
         <sc-for list="{{ animados }}" as="slot">
           <div data-reveal class="cf-card">
             <video src="{{ slot.src }}" poster="{{ slot.poster }}" muted playsinline loop preload="none"></video>
             <div class="cf-grad"></div>
             <div style="position:absolute;top:12px;left:12px;font-size:10px;letter-spacing:.08em;color:rgba(240,244,243,.8);border:1px solid rgba(240,244,243,.25);border-radius:100px;padding:3px 9px;background:rgba(5,12,11,.6)">{{ slot.ratio }}</div>
+            <!-- Branded Play Button Overlay -->
+            <div class="cf-play-btn" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:48px; height:48px; border-radius:50%; background:rgba(11, 24, 23, 0.65); border:1px solid rgba(0, 255, 234, 0.45); display:flex; align-items:center; justify-content:center; backdrop-filter:blur(8px); transition:all 0.3s ease; z-index:6; box-shadow:0 0 15px rgba(0,255,234,0.15);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="transform:translateX(1px); transition:all 0.3s;">
+                <path d="M8 5V19L19 12L8 5Z" fill="#00FFEA"/>
+              </svg>
+            </div>
             <!-- Interactive HUD Scanner overlay (Hollywood effect) -->
             <div class="cf-hud-scanner">
               <div class="hud-scanner-line"></div>
@@ -369,31 +555,81 @@ html,body{margin:0;background:#050C0B}
 
     <!-- 2. UGC HYPER REALISTIC SUBSECTION -->
     <div>
-      <h3 data-reveal style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(1.5rem,3vw,2.2rem);color:#00FFEA;border-bottom:1px solid rgba(0,255,234,0.15);padding-bottom:12px;margin-bottom:24px;display:flex;align-items:center;gap:12px">
+      <h3 data-reveal style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(1.5rem,3vw,2.2rem);color:#00FFEA;border-bottom:1px solid rgba(0,255,234,0.15);padding-bottom:12px;margin-bottom:12px;display:flex;align-items:center;gap:12px">
         <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#00FFEA;box-shadow:0 0 10px #00FFEA"></span>
         {{ t.sections.ugc }}
       </h3>
-      <div class="dnd-grid-ugc">
-        <sc-for list="{{ ugc_hyperrealistic }}" as="slot">
-          <div data-reveal class="cf-card">
-            <video src="{{ slot.src }}" poster="{{ slot.poster }}" muted playsinline loop preload="none"></video>
-            <div class="cf-grad"></div>
-            <div style="position:absolute;top:12px;left:12px;font-size:10px;letter-spacing:.08em;color:rgba(240,244,243,.8);border:1px solid rgba(240,244,243,.25);border-radius:100px;padding:3px 9px;background:rgba(5,12,11,.6)">{{ slot.ratio }}</div>
-            <!-- Interactive HUD Scanner overlay (Hollywood effect) -->
-            <div class="cf-hud-scanner">
-              <div class="hud-scanner-line"></div>
-              <div class="hud-corner top-left"></div>
-              <div class="hud-corner top-right"></div>
-              <div class="hud-corner bottom-left"></div>
-              <div class="hud-corner bottom-right"></div>
-              <div class="hud-text">AI SCAN // OK</div>
+      <div data-reveal style="font-family:'Space Grotesk',sans-serif; font-size:11px; text-transform:uppercase; color:#00FFEA; letter-spacing:0.08em; margin-bottom:24px; display:flex; align-items:center; gap:8px; opacity:0.85;">
+        <span style="display:inline-block; width:6px; height:6px; background:#B5FF00; border-radius:50%; box-shadow:0 0 8px #B5FF00; animation:cfbreathe 1.5s ease infinite"></span>
+        {{ isEs ? 'Haz clic en cualquier video para reproducir' : 'Click on any video to play' }}
+      </div>
+      
+      <!-- Subcategory: AI Podcast -->
+      <div style="margin-bottom:44px">
+        <h4 data-reveal style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:18px; color:#B5FF00; margin-bottom:16px; display:flex; align-items:center; gap:8px;">
+          <span style="color:#00FFEA;">✦</span> {{ t.sections.sub_podcast }}
+        </h4>
+        <div class="dnd-grid-ugc">
+          <sc-for list="{{ ugc_podcast }}" as="slot">
+            <div data-reveal class="cf-card">
+              <video src="{{ slot.src }}" poster="{{ slot.poster }}" muted playsinline loop preload="none"></video>
+              <div class="cf-grad"></div>
+              <div style="position:absolute;top:12px;left:12px;font-size:10px;letter-spacing:.08em;color:rgba(240,244,243,.8);border:1px solid rgba(240,244,243,.25);border-radius:100px;padding:3px 9px;background:rgba(5,12,11,.6)">{{ slot.ratio }}</div>
+              <!-- Branded Play Button Overlay -->
+              <div class="cf-play-btn" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:48px; height:48px; border-radius:50%; background:rgba(11, 24, 23, 0.65); border:1px solid rgba(0, 255, 234, 0.45); display:flex; align-items:center; justify-content:center; backdrop-filter:blur(8px); transition:all 0.3s ease; z-index:6; box-shadow:0 0 15px rgba(0,255,234,0.15);">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="transform:translateX(1px); transition:all 0.3s;">
+                  <path d="M8 5V19L19 12L8 5Z" fill="#00FFEA"/>
+                </svg>
+              </div>
+              <div class="cf-hud-scanner">
+                <div class="hud-scanner-line"></div>
+                <div class="hud-corner top-left"></div>
+                <div class="hud-corner top-right"></div>
+                <div class="hud-corner bottom-left"></div>
+                <div class="hud-corner bottom-right"></div>
+                <div class="hud-text">AI SCAN // OK</div>
+              </div>
+              <div class="cf-meta">
+                <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#00FFEA;margin-bottom:4px">{{ slot.cat }}</div>
+                <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:15px">{{ slot.title }}</div>
+              </div>
             </div>
-            <div class="cf-meta">
-              <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#00FFEA;margin-bottom:4px">{{ slot.cat }}</div>
-              <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:15px">{{ slot.title }}</div>
+          </sc-for>
+        </div>
+      </div>
+
+      <!-- Subcategory: UGC Talking Heads & Influencers -->
+      <div>
+        <h4 data-reveal style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:18px; color:#B5FF00; margin-bottom:16px; display:flex; align-items:center; gap:8px;">
+          <span style="color:#00FFEA;">✦</span> {{ t.sections.sub_talkinghead }}
+        </h4>
+        <div class="dnd-grid" style="grid-template-columns: repeat(2, 1fr); max-width: 800px; margin: 0 auto;">
+          <sc-for list="{{ ugc_talkinghead }}" as="slot">
+            <div data-reveal class="cf-card">
+              <video src="{{ slot.src }}" poster="{{ slot.poster }}" muted playsinline loop preload="none"></video>
+              <div class="cf-grad"></div>
+              <div style="position:absolute;top:12px;left:12px;font-size:10px;letter-spacing:.08em;color:rgba(240,244,243,.8);border:1px solid rgba(240,244,243,.25);border-radius:100px;padding:3px 9px;background:rgba(5,12,11,.6)">{{ slot.ratio }}</div>
+              <!-- Branded Play Button Overlay -->
+              <div class="cf-play-btn" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:48px; height:48px; border-radius:50%; background:rgba(11, 24, 23, 0.65); border:1px solid rgba(0, 255, 234, 0.45); display:flex; align-items:center; justify-content:center; backdrop-filter:blur(8px); transition:all 0.3s ease; z-index:6; box-shadow:0 0 15px rgba(0,255,234,0.15);">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="transform:translateX(1px); transition:all 0.3s;">
+                  <path d="M8 5V19L19 12L8 5Z" fill="#00FFEA"/>
+                </svg>
+              </div>
+              <div class="cf-hud-scanner">
+                <div class="hud-scanner-line"></div>
+                <div class="hud-corner top-left"></div>
+                <div class="hud-corner top-right"></div>
+                <div class="hud-corner bottom-left"></div>
+                <div class="hud-corner bottom-right"></div>
+                <div class="hud-text">AI SCAN // OK</div>
+              </div>
+              <div class="cf-meta">
+                <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#00FFEA;margin-bottom:4px">{{ slot.cat }}</div>
+                <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:15px">{{ slot.title }}</div>
+              </div>
             </div>
-          </div>
-        </sc-for>
+          </sc-for>
+        </div>
       </div>
     </div>
   </section>
@@ -458,18 +694,19 @@ html,body{margin:0;background:#050C0B}
     </div>
   </div>
 
-  <!-- METHOD -->
+  <!-- METHOD / PROCESS -->
   <section data-screen-label="Method" id="metodo" style="background:#F4F8F7;color:#050C0B;padding:clamp(80px,12vw,160px) clamp(20px,4vw,56px);border-radius:clamp(28px,4vw,52px) clamp(28px,4vw,52px) 0 0">
     <div data-reveal style="margin-bottom:52px">
-      <span style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#0B7A75">{{ t.method.label }}</span>
-      <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(2.2rem,6vw,4.4rem);letter-spacing:-.03em;margin:10px 0 0;max-width:18ch">{{ t.method.title }}</h2>
+      <span style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#0B7A75">{{ t.process.label }}</span>
+      <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(2.2rem,6vw,4.4rem);letter-spacing:-.03em;margin:10px 0 0;max-width:18ch">{{ t.process.title }}</h2>
     </div>
-    <div class="dnd-method">
-      <sc-for list="{{ method }}" as="step" hint-placeholder-count="3">
-        <div data-reveal style="border-top:2px solid rgba(5,12,11,.12);padding-top:24px">
-          <div style="font-family:'Instrument Serif',serif;font-size:52px;color:#0B7A75;line-height:1;margin-bottom:18px">{{ step.num }}</div>
-          <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:clamp(1.4rem,2.6vw,2rem);margin:0 0 12px;letter-spacing:-.02em">{{ step.title }}</h3>
-          <p style="margin:0;color:rgba(5,12,11,.6);line-height:1.6;font-size:15px">{{ step.desc }}</p>
+    <div class="dnd-method" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:24px;">
+      <sc-for list="{{ t.process.steps }}" as="step">
+        <div data-reveal style="background:#ffffff; border-radius:24px; padding:32px; box-shadow:0 12px 30px rgba(5, 12, 11, 0.03); border:1px solid rgba(11, 122, 117, 0.08); transition:transform .3s ease, border-color .3s ease, box-shadow .3s ease; display:flex; flex-direction:column; justify-content:space-between;" onmouseenter="this.style.transform='translateY(-6px)'; this.style.borderColor='#0B7A75'; this.style.boxShadow='0 20px 45px rgba(5, 12, 11, 0.06)'" onmouseleave="this.style.transform=''; this.style.borderColor='rgba(11, 122, 117, 0.08)'; this.style.boxShadow='0 12px 30px rgba(5, 12, 11, 0.03)'">
+          <div>
+            <div style="font-family:'Instrument Serif',serif; font-size:48px; color:#0B7A75; line-height:1; margin-bottom:20px; font-weight:400; font-style:italic;">{{ step.num }}</div>
+            <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:18px; margin:0; letter-spacing:-.02em; color:#050C0B;">{{ step.title }}</h3>
+          </div>
         </div>
       </sc-for>
     </div>
@@ -521,109 +758,464 @@ html,body{margin:0;background:#050C0B}
   </div>
 
   <!-- FAQ -->
-  <section style="padding:clamp(80px,12vw,150px) clamp(20px,4vw,56px)">
-    <h2 data-reveal style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(2rem,5.5vw,3.8rem);letter-spacing:-.03em;margin:0 0 36px">{{ t.faqTitle }}</h2>
-    <div style="max-width:980px">
-      <sc-for list="{{ faqItems }}" as="item" hint-placeholder-count="5">
-        <div data-reveal style="border-top:1px solid rgba(240,244,243,.09)">
-          <button onClick="{{ item.onToggle }}" style="width:100%;display:flex;justify-content:space-between;gap:20px;align-items:center;background:none;border:none;color:#F0F4F3;cursor:pointer;padding:24px 0;text-align:left;font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:clamp(16px,2.2vw,23px);letter-spacing:-.01em">
-            <span>{{ item.q }}</span>
-            <span style="color:#00FFEA;font-size:28px;flex-shrink:0;font-weight:300;transition:transform .3s">{{ item.sign }}</span>
-          </button>
-          <sc-if value="{{ item.isOpen }}" hint-placeholder-val="{{ false }}">
-            <p class="faq-answer" style="margin:0 0 26px;max-width:64ch;color:rgba(240,244,243,.55);line-height:1.65;font-size:16px">{{ item.a }}</p>
-          </sc-if>
-        </div>
-      </sc-for>
+  <section style="padding:clamp(80px,12vw,150px) clamp(20px,4vw,56px); position:relative; border-top:1px solid rgba(240,244,243,.09);">
+    <!-- Editorial Two Column layout for FAQ -->
+    <div style="display:grid; grid-template-columns:1fr 1.6fr; gap:48px; max-width:1400px; margin:0 auto;" id="dnd-faq-grid">
+      <div data-reveal>
+        <span style="font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:#00FFEA; font-weight:700;">FAQ / HELP</span>
+        <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:clamp(2.2rem,6vw,4rem); letter-spacing:-.03em; margin:14px 0 20px; line-height:1.0;">{{ t.faqTitle }}</h2>
+        <p style="color:rgba(240,244,243,0.55); font-size:15px; line-height:1.6; max-width:28ch;">
+          {{ isEs ? '¿Tienes más preguntas? Escríbenos en el formulario de contacto para una asesoría directa.' : 'Have more questions? Get in touch via the contact form for direct support.' }}
+        </p>
+      </div>
+      
+      <div>
+        <sc-for list="{{ faqItems }}" as="item" hint-placeholder-count="5">
+          <div data-reveal class="faq-card {{ item.isOpen ? 'is-open' : '' }}">
+            <button onClick="{{ item.onToggle }}" style="width:100%; display:flex; justify-content:space-between; gap:20px; align-items:center; background:none; border:none; color:#F0F4F3; cursor:pointer; padding:20px 0; text-align:left; font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(16px,2vw,20px); letter-spacing:-.01em;">
+              <span>{{ item.q }}</span>
+              <span style="color:#00FFEA; font-size:24px; flex-shrink:0; font-weight:300; transition:all 0.3s;">{{ item.sign }}</span>
+            </button>
+            <sc-if value="{{ item.isOpen }}" hint-placeholder-val="{{ false }}">
+              <p class="faq-answer" style="margin:0 0 20px; max-width:64ch; color:rgba(240,244,243,.6); line-height:1.65; font-size:15px;">{{ item.a }}</p>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
     </div>
   </section>
 
-  <!-- CONTACT -->
-  <section id="contacto" style="background:#0B7A75;color:#031A18;padding:clamp(80px,13vw,170px) clamp(20px,4vw,56px);text-align:center;position:relative;overflow:hidden">
-    <div style="position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:800px;height:800px;border-radius:50%;background:radial-gradient(circle,rgba(0,255,234,.1) 0%,transparent 65%);pointer-events:none"></div>
-    <span data-reveal style="position:relative;font-family:'Instrument Serif',serif;font-style:italic;font-size:clamp(1.1rem,2vw,1.5rem);opacity:.65">{{ t.cta.label }}</span>
-    <h2 data-reveal style="position:relative;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(2.6rem,9vw,7rem);letter-spacing:-.04em;line-height:.94;margin:18px auto 0;max-width:16ch">{{ t.cta.title }}</h2>
-    <p data-reveal style="position:relative;max-width:46ch;margin:24px auto 0;font-size:clamp(15px,1.6vw,18px);line-height:1.55;color:rgba(3,26,24,.72)">{{ t.cta.sub }}</p>
-    <div data-reveal style="position:relative;display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:44px">
-      <a href="mailto:{{ t.cta.email }}" style="background:#050C0B;color:#F0F4F3;padding:18px 44px;border-radius:100px;font-weight:700;font-size:16px;text-decoration:none;transition:transform .2s,box-shadow .2s" onmouseenter="this.style.transform='scale(1.04)';this.style.boxShadow='0 16px 48px rgba(5,12,11,.4)'" onmouseleave="this.style.transform='';this.style.boxShadow=''">{{ t.cta.button }}</a>
-      <a href="mailto:{{ t.cta.email }}" style="color:#031A18;text-decoration:none;font-size:14px;letter-spacing:.04em;opacity:.65">{{ t.cta.email }}</a>
+  <!-- CONTACT FORM & CTA SECTION -->
+  <section data-screen-label="Contact" id="contacto" style="padding:clamp(80px,12vw,150px) clamp(20px,4vw,56px); border-top:1px solid rgba(240,244,243,.09); position:relative;">
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:64px; max-width:1400px; margin:0 auto;" id="dnd-contact-grid">
+      <!-- Left Column: Title & Text -->
+      <div data-reveal>
+        <span style="font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:#00FFEA;">{{ t.contact.kicker }}</span>
+        <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:clamp(2.4rem,7vw,4.8rem); letter-spacing:-.04em; margin:14px 0 20px; line-height:1.0;">
+          {{ t.contact.title }}
+        </h2>
+        <p style="font-size:16px; line-height:1.6; color:rgba(240,244,243,.65); margin-bottom:32px;">
+          {{ t.contact.desc }}
+        </p>
+        
+        <!-- Contact Cards (Single WhatsApp Card, No Email) -->
+        <div style="display:grid; gap:16px;">
+          <div style="background:rgba(11,24,23,0.35); border:1px solid rgba(0,255,234,0.15); padding:24px; border-radius:20px; display:flex; gap:20px; align-items:center; backdrop-filter:blur(8px); transition:all 0.3s ease;" onmouseenter="this.style.borderColor='#00FFEA'; this.style.boxShadow='0 0 20px rgba(0,255,234,0.05)';" onmouseleave="this.style.borderColor='rgba(0,255,234,0.15)'; this.style.boxShadow='none';">
+            <div style="width:48px; height:48px; border-radius:50%; background:rgba(0,255,234,0.12); display:flex; align-items:center; justify-content:center; color:#00FFEA; font-size:20px;">💬</div>
+            <div>
+              <div style="font-size:10px; text-transform:uppercase; color:rgba(240,244,243,0.45); letter-spacing:0.12em; font-weight:700; margin-bottom:4px;">{{ t.contact.directChat }}</div>
+              <a href="https://wa.me/56978698180" id="cf-direct-whatsapp" target="_blank" rel="noopener" style="color:#F0F4F3; font-weight:800; text-decoration:none; font-size:18px; letter-spacing:-0.01em; transition:color 0.2s" onmouseenter="this.style.color='#00FFEA'" onmouseleave="this.style.color='#F0F4F3'">+56 9 7869 8180</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Right Column: Interactive Form -->
+      <div data-reveal style="background:rgba(11, 24, 23, 0.4); border:1px solid rgba(240, 244, 243, 0.08); padding:40px; border-radius:28px; backdrop-filter:blur(16px); position:relative;">
+        <form onSubmit="{{ handleFormSubmit }}" style="display:grid; gap:20px;">
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:20px;">
+            <div>
+              <label style="display:block; font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:rgba(240,244,243,0.5); margin-bottom:8px;">{{ t.contact.name }} *</label>
+              <input type="text" id="form-name" required placeholder="{{ t.contact.placeholderName }}" style="width:100%; background:rgba(240,244,243,0.02); border:1px solid rgba(240,244,243,0.08); padding:14px 18px; border-radius:12px; color:#F0F4F3; font-family:inherit; font-size:14px; outline:none; transition:all 0.3s cubic-bezier(0.16,1,0.3,1);" onfocus="this.style.borderColor='#00FFEA'; this.style.background='rgba(0,255,234,0.01)'; this.style.boxShadow='0 0 16px rgba(0,255,234,0.06)'" onblur="this.style.borderColor='rgba(240,244,243,0.08)'; this.style.background='rgba(240,244,243,0.02)'; this.style.boxShadow='none'">
+            </div>
+            <div>
+              <label style="display:block; font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:rgba(240,244,243,0.5); margin-bottom:8px;">{{ t.contact.email }} *</label>
+              <input type="email" id="form-email" required placeholder="{{ t.contact.placeholderEmail }}" style="width:100%; background:rgba(240,244,243,0.02); border:1px solid rgba(240,244,243,0.08); padding:14px 18px; border-radius:12px; color:#F0F4F3; font-family:inherit; font-size:14px; outline:none; transition:all 0.3s cubic-bezier(0.16,1,0.3,1);" onfocus="this.style.borderColor='#00FFEA'; this.style.background='rgba(0,255,234,0.01)'; this.style.boxShadow='0 0 16px rgba(0,255,234,0.06)'" onblur="this.style.borderColor='rgba(240,244,243,0.08)'; this.style.background='rgba(240,244,243,0.02)'; this.style.boxShadow='none'">
+            </div>
+          </div>
+          
+          <div>
+            <label style="display:block; font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:rgba(240,244,243,0.5); margin-bottom:8px;">{{ t.contact.brand }} *</label>
+            <input type="text" id="form-brand" required placeholder="{{ t.contact.placeholderBrand }}" style="width:100%; background:rgba(240,244,243,0.02); border:1px solid rgba(240,244,243,0.08); padding:14px 18px; border-radius:12px; color:#F0F4F3; font-family:inherit; font-size:14px; outline:none; transition:all 0.3s cubic-bezier(0.16,1,0.3,1);" onfocus="this.style.borderColor='#00FFEA'; this.style.background='rgba(0,255,234,0.01)'; this.style.boxShadow='0 0 16px rgba(0,255,234,0.06)'" onblur="this.style.borderColor='rgba(240,244,243,0.08)'; this.style.background='rgba(240,244,243,0.02)'; this.style.boxShadow='none'">
+          </div>
+          
+          <div>
+            <label style="display:block; font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:rgba(240,244,243,0.5); margin-bottom:12px;">{{ t.contact.service }}</label>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:10px;">
+              <label style="display:flex; align-items:center; gap:10px; padding:12px 14px; border:1px solid rgba(240,244,243,0.08); border-radius:10px; cursor:pointer; transition:border-color .2s, background .2s; font-size:13px; color:rgba(240,244,243,0.75);" onmouseenter="this.style.borderColor='rgba(0,255,234,0.4)'" onmouseleave="this.style.borderColor=(this.querySelector('input').checked?'#00FFEA':'rgba(240,244,243,0.08)')">
+                <input type="checkbox" name="form-service" value="AI UGC Ads" style="accent-color:#00FFEA; width:15px; height:15px; flex-shrink:0;" onchange="var l=this.closest('label'); l.style.borderColor=this.checked?'#00FFEA':'rgba(240,244,243,0.08)'; l.style.background=this.checked?'rgba(0,255,234,0.05)':'transparent'">
+                {{ t.contact.serviceUgc }}
+              </label>
+              <label style="display:flex; align-items:center; gap:10px; padding:12px 14px; border:1px solid rgba(240,244,243,0.08); border-radius:10px; cursor:pointer; transition:border-color .2s, background .2s; font-size:13px; color:rgba(240,244,243,0.75);" onmouseenter="this.style.borderColor='rgba(0,255,234,0.4)'" onmouseleave="this.style.borderColor=(this.querySelector('input').checked?'#00FFEA':'rgba(240,244,243,0.08)')">
+                <input type="checkbox" name="form-service" value="Animated & 3D" style="accent-color:#00FFEA; width:15px; height:15px; flex-shrink:0;" onchange="var l=this.closest('label'); l.style.borderColor=this.checked?'#00FFEA':'rgba(240,244,243,0.08)'; l.style.background=this.checked?'rgba(0,255,234,0.05)':'transparent'">
+                {{ t.contact.service3d }}
+              </label>
+              <label style="display:flex; align-items:center; gap:10px; padding:12px 14px; border:1px solid rgba(240,244,243,0.08); border-radius:10px; cursor:pointer; transition:border-color .2s, background .2s; font-size:13px; color:rgba(240,244,243,0.75);" onmouseenter="this.style.borderColor='rgba(0,255,234,0.4)'" onmouseleave="this.style.borderColor=(this.querySelector('input').checked?'#00FFEA':'rgba(240,244,243,0.08)')">
+                <input type="checkbox" name="form-service" value="Fashion Campaigns" style="accent-color:#00FFEA; width:15px; height:15px; flex-shrink:0;" onchange="var l=this.closest('label'); l.style.borderColor=this.checked?'#00FFEA':'rgba(240,244,243,0.08)'; l.style.background=this.checked?'rgba(0,255,234,0.05)':'transparent'">
+                {{ t.contact.serviceFashion }}
+              </label>
+              <label style="display:flex; align-items:center; gap:10px; padding:12px 14px; border:1px solid rgba(240,244,243,0.08); border-radius:10px; cursor:pointer; transition:border-color .2s, background .2s; font-size:13px; color:rgba(240,244,243,0.75);" onmouseenter="this.style.borderColor='rgba(0,255,234,0.4)'" onmouseleave="this.style.borderColor=(this.querySelector('input').checked?'#00FFEA':'rgba(240,244,243,0.08)')">
+                <input type="checkbox" name="form-service" value="Monthly Plans" style="accent-color:#00FFEA; width:15px; height:15px; flex-shrink:0;" onchange="var l=this.closest('label'); l.style.borderColor=this.checked?'#00FFEA':'rgba(240,244,243,0.08)'; l.style.background=this.checked?'rgba(0,255,234,0.05)':'transparent'">
+                {{ t.contact.serviceMonthly }}
+              </label>
+              <label style="display:flex; align-items:center; gap:10px; padding:12px 14px; border:1px solid rgba(240,244,243,0.08); border-radius:10px; cursor:pointer; transition:border-color .2s, background .2s; font-size:13px; color:rgba(240,244,243,0.75);" onmouseenter="this.style.borderColor='rgba(0,255,234,0.4)'" onmouseleave="this.style.borderColor=(this.querySelector('input').checked?'#00FFEA':'rgba(240,244,243,0.08)')">
+                <input type="checkbox" name="form-service" value="Other" style="accent-color:#00FFEA; width:15px; height:15px; flex-shrink:0;" onchange="var l=this.closest('label'); l.style.borderColor=this.checked?'#00FFEA':'rgba(240,244,243,0.08)'; l.style.background=this.checked?'rgba(0,255,234,0.05)':'transparent'">
+                {{ t.contact.serviceOther }}
+              </label>
+            </div>
+          </div>
+          
+          <div>
+            <label style="display:block; font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:rgba(240,244,243,0.5); margin-bottom:8px;">{{ t.contact.details }} *</label>
+            <textarea id="form-message" required rows="4" placeholder="{{ t.contact.placeholderDetails }}" style="width:100%; background:rgba(240,244,243,0.02); border:1px solid rgba(240,244,243,0.08); padding:14px 18px; border-radius:12px; color:#F0F4F3; font-family:inherit; font-size:14px; outline:none; resize:none; transition:all 0.3s cubic-bezier(0.16,1,0.3,1);" onfocus="this.style.borderColor='#00FFEA'; this.style.background='rgba(0,255,234,0.01)'; this.style.boxShadow='0 0 16px rgba(0,255,234,0.06)'" onblur="this.style.borderColor='rgba(240,244,243,0.08)'; this.style.background='rgba(240,244,243,0.02)'; this.style.boxShadow='none'"></textarea>
+          </div>
+          
+          <button type="submit" style="background:#B5FF00; color:#050C0B; font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:15px; text-transform:uppercase; letter-spacing:0.05em; padding:16px 32px; border:none; border-radius:12px; cursor:pointer; transition:all 0.3s cubic-bezier(0.16, 1, 0.3, 1); display:flex; align-items:center; justify-content:center; gap:8px;" onmouseenter="this.style.background='#00FFEA'; this.style.transform='translateY(-2px)';" onmouseleave="this.style.background='#B5FF00'; this.style.transform='none';">
+            <span>{{ t.contact.button }}</span>
+            <span style="font-size:16px;">→</span>
+          </button>
+        </form>
+      </div>
     </div>
   </section>
 
   <!-- FOOTER -->
-  <footer style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:24px;padding:clamp(40px,6vw,64px) clamp(20px,4vw,56px)">
-    <div>
-      <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:22px;letter-spacing:-.03em">{{ brand }}<span style="color:#00FFEA">.</span></div>
-      <p style="margin:10px 0 0;max-width:38ch;color:rgba(240,244,243,.4);font-size:13px;line-height:1.55">{{ t.footer.tagline }}</p>
+  <footer style="background:#030807; border-top:1px solid rgba(240,244,243,.07); padding:64px clamp(20px,4vw,56px) 32px; color:#F0F4F3; position:relative; overflow:hidden;">
+    <!-- Decorative bottom glow -->
+    <div style="position:absolute; bottom:-100px; left:10%; width:300px; height:300px; border-radius:50%; background:radial-gradient(circle, rgba(0, 255, 234, 0.04) 0%, transparent 70%); pointer-events:none;"></div>
+    
+    <div style="max-width:1400px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:48px; margin-bottom:48px;">
+      
+      <!-- Brand & Tagline -->
+      <div>
+        <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:24px; letter-spacing:-.03em; margin-bottom:16px;">
+          {{ brand }}<span style="color:#00FFEA">.</span>
+        </div>
+        <p style="margin:0 0 24px; max-width:36ch; color:rgba(240,244,243,.5); font-size:14px; line-height:1.6;">
+          {{ t.footer.tagline }}
+        </p>
+        
+        <!-- WhatsApp Contact -->
+        <div style="display:flex; flex-direction:column; gap:8px; font-size:13px; color:rgba(240,244,243,.45);">
+          <div>
+            <span style="color:#00FFEA; font-weight:700;">WhatsApp:</span>
+            <a href="https://wa.me/56978698180" target="_blank" rel="noopener" style="color:inherit; text-decoration:none; margin-left:4px; transition:color .15s" onmouseenter="this.style.color='#00FFEA'" onmouseleave="this.style.color='rgba(240,244,243,.45)'">+56 9 7869 8180</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Navigation Links -->
+      <div>
+        <h4 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:#B5FF00; text-transform:uppercase; letter-spacing:0.05em; margin:0 0 20px;">
+          {{ isEs ? 'Navegación' : 'Navigation' }}
+        </h4>
+        <ul style="list-style:none; padding:0; margin:0; display:grid; gap:10px; font-size:13px;">
+          <li><a href="#top" style="color:rgba(240,244,243,.65); text-decoration:none; transition:color 0.2s;" onmouseenter="this.style.color='#00FFEA'" onmouseleave="this.style.color='rgba(240,244,243,.65)'">{{ isEs ? 'Inicio' : 'Home' }}</a></li>
+          <li><a href="#trabajo" style="color:rgba(240,244,243,.65); text-decoration:none; transition:color 0.2s;" onmouseenter="this.style.color='#00FFEA'" onmouseleave="this.style.color='rgba(240,244,243,.65)'">{{ t.nav.work }}</a></li>
+          <li><a href="#servicios" style="color:rgba(240,244,243,.65); text-decoration:none; transition:color 0.2s;" onmouseenter="this.style.color='#00FFEA'" onmouseleave="this.style.color='rgba(240,244,243,.65)'">{{ t.nav.services }}</a></li>
+          <li><a href="#contacto" style="color:rgba(240,244,243,.65); text-decoration:none; transition:color 0.2s;" onmouseenter="this.style.color='#00FFEA'" onmouseleave="this.style.color='rgba(240,244,243,.65)'">{{ isEs ? 'Contacto' : 'Contact' }}</a></li>
+        </ul>
+      </div>
+      
+      <!-- Studio Info -->
+      <div>
+        <h4 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:#B5FF00; text-transform:uppercase; letter-spacing:0.05em; margin:0 0 20px;">
+          Studio
+        </h4>
+        <p style="color:rgba(240,244,243,.5); font-size:13px; line-height:1.6; margin:0 0 16px;">
+          {{ isEs ? 'Ubicación global y remota. Creamos contenido en inglés y español.' : 'Global & remote setup. We create content in English and Spanish.' }}
+        </p>
+        <span style="font-family:'Instrument Serif',serif; font-style:italic; font-size:16px; color:#00FFEA;">
+          Move fast. Look premium.
+        </span>
+      </div>
+      
     </div>
-    <div style="text-align:right">
-      <a href="#top" style="color:rgba(240,244,243,.55);text-decoration:none;font-size:13px;transition:color .15s" onmouseenter="this.style.color='#00FFEA'" onmouseleave="this.style.color='rgba(240,244,243,.55)'">{{ t.footer.back }} ↑</a>
-      <p style="margin:14px 0 0;color:rgba(240,244,243,.3);font-size:12px">{{ t.footer.rights }}</p>
+    
+    <!-- Divider -->
+    <div style="border-top:1px solid rgba(240,244,243,.06); padding-top:24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; font-size:12px; color:rgba(240,244,243,.35);">
+      <div style="display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
+        <span>{{ t.footer.rights }}</span>
+        <span style="color:rgba(240,244,243,0.15)">|</span>
+        <a href="./terms.html" target="_blank" style="color:inherit; text-decoration:none; transition:color .15s" onmouseenter="this.style.color='#00FFEA'" onmouseleave="this.style.color='rgba(240,244,243,.35)'">{{ isEs ? 'Términos y Condiciones' : 'Terms & Conditions' }}</a>
+        <span style="color:rgba(240,244,243,0.15)">|</span>
+        <a href="./privacy.html" target="_blank" style="color:inherit; text-decoration:none; transition:color .15s" onmouseenter="this.style.color='#00FFEA'" onmouseleave="this.style.color='rgba(240,244,243,.35)'">{{ isEs ? 'Política de Privacidad' : 'Privacy Policy' }}</a>
+      </div>
+      <div>
+        <a href="#top" style="color:inherit; text-decoration:none; transition:color .15s" onmouseenter="this.style.color='#00FFEA'" onmouseleave="this.style.color='rgba(240,244,243,.35)'">{{ t.footer.back }} ↑</a>
+      </div>
     </div>
   </footer>
+
+  <!-- TERMS AND CONDITIONS MODAL -->
+  <sc-if value="{{ openTerms }}">
+    <div style="position:fixed; inset:0; z-index:100; display:flex; align-items:center; justify-content:center; padding:20px; background:rgba(3,8,7,0.85); backdrop-filter:blur(12px); animation:fadeIn 0.3s ease;">
+      <div style="background:rgba(11,24,23,0.95); border:1px solid rgba(0,255,234,0.18); border-radius:24px; padding:clamp(24px,4vw,40px); max-width:680px; width:100%; max-height:80vh; overflow-y:auto; box-shadow:0 20px 50px rgba(0,255,234,0.1); position:relative;">
+        <button onClick="{{ toggleTerms }}" style="position:absolute; top:20px; right:20px; background:none; border:none; color:rgba(240,244,243,0.5); font-size:24px; cursor:pointer; transition:color 0.2s;" onmouseenter="this.style.color='#00FFEA'" onmouseleave="this.style.color='rgba(240,244,243,0.5)'">×</button>
+        <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-size:24px; font-weight:800; color:#00FFEA; margin-top:0; margin-bottom:20px;">
+          {{ isEs ? 'Términos y Condiciones' : 'Terms & Conditions' }}
+        </h3>
+        <div style="color:rgba(240,244,243,0.7); font-size:14px; line-height:1.6; display:grid; gap:16px;">
+          <p>
+            {{ isEs 
+              ? 'Bienvenido a CreatorFlow UGC. Al acceder y utilizar nuestro sitio web y servicios, aceptas cumplir y estar sujeto a los siguientes términos y condiciones. Nuestros servicios consisten en la creación de contenido mediante Inteligencia Artificial (UGC, animaciones 3D, podcasts y campañas digitales).' 
+              : 'Welcome to CreatorFlow UGC. By accessing and using our website and services, you agree to comply with and be bound by the following terms and conditions. Our services consist of content creation using Artificial Intelligence (UGC, 3D animations, podcasts, and digital campaigns).' }}
+          </p>
+          <p>
+            <strong>{{ isEs ? '1. Propiedad Intelectual y Derechos Comerciales' : '1. Intellectual Property & Commercial Rights' }}</strong><br>
+            {{ isEs 
+              ? 'Una vez realizado y completado el pago total de los servicios, el cliente adquiere los derechos de uso comercial exclusivos sobre las piezas de video finales entregadas. CreatorFlow se reserva el derecho de mostrar las piezas en su portafolio público con fines promocionales, a menos que se acuerde un acuerdo de confidencialidad (NDA) explícito.' 
+              : 'Once full payment for the services is completed, the client acquires exclusive commercial usage rights for the final video assets delivered. CreatorFlow reserves the right to showcase the assets in its public portfolio for promotional purposes, unless an explicit Non-Disclosure Agreement (NDA) is signed.' }}
+          </p>
+          <p>
+            <strong>{{ isEs ? '2. Política de Revisiones' : '2. Revision Policy' }}</strong><br>
+            {{ isEs 
+              ? 'Todos nuestros paquetes y entregas individuales de video incluyen un máximo de una (1) ronda de revisión por video. Revisiones adicionales tendrán un costo adicional y se coordinarán directamente por escrito.' 
+              : 'All our packages and individual video deliveries include a maximum of one (1) round of revision per video. Additional revisions will incur extra fees and will be coordinated directly in writing.' }}
+          </p>
+          <p>
+            <strong>{{ isEs ? '3. Condiciones de Pago' : '3. Payment Terms' }}</strong><br>
+            {{ isEs 
+              ? 'Todo trabajo requiere el pago anticipado del 100% del valor acordado antes de iniciar la producción. La moneda y los métodos de transferencia serán definidos de mutuo acuerdo con el cliente en la cotización inicial.' 
+              : 'All work requires 100% upfront payment of the agreed value before production starts. The currency and transaction methods will be defined by mutual agreement with the client in the initial quote.' }}
+          </p>
+          <p>
+            <strong>{{ isEs ? '4. Modelos e Inteligencia Artificial' : '4. Models and Artificial Intelligence' }}</strong><br>
+            {{ isEs 
+              ? 'El cliente reconoce que los modelos de moda, voces y avatares Talking Head utilizados en la producción son clones digitales y personas sintéticas generadas mediante algoritmos de IA y no corresponden a individuos reales del mundo físico. CreatorFlow garantiza la legitimidad en el uso de los modelos provistos.' 
+              : 'The client acknowledges that the fashion models, voices, and Talking Head avatars used in the production are digital clones and synthetic personas generated by AI algorithms and do not correspond to real-world individuals. CreatorFlow guarantees the legitimacy of the provided models.' }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- PRIVACY POLICY MODAL -->
+  <sc-if value="{{ openPrivacy }}">
+    <div style="position:fixed; inset:0; z-index:100; display:flex; align-items:center; justify-content:center; padding:20px; background:rgba(3,8,7,0.85); backdrop-filter:blur(12px); animation:fadeIn 0.3s ease;">
+      <div style="background:rgba(11,24,23,0.95); border:1px solid rgba(0,255,234,0.18); border-radius:24px; padding:clamp(24px,4vw,40px); max-width:680px; width:100%; max-height:80vh; overflow-y:auto; box-shadow:0 20px 50px rgba(0,255,234,0.1); position:relative;">
+        <button onClick="{{ togglePrivacy }}" style="position:absolute; top:20px; right:20px; background:none; border:none; color:rgba(240,244,243,0.5); font-size:24px; cursor:pointer; transition:color 0.2s;" onmouseenter="this.style.color='#00FFEA'" onmouseleave="this.style.color='rgba(240,244,243,0.5)'">×</button>
+        <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-size:24px; font-weight:800; color:#00FFEA; margin-top:0; margin-bottom:20px;">
+          {{ isEs ? 'Política de Privacidad' : 'Privacy Policy' }}
+        </h3>
+        <div style="color:rgba(240,244,243,0.7); font-size:14px; line-height:1.6; display:grid; gap:16px;">
+          <p>
+            {{ isEs 
+              ? 'En CreatorFlow UGC, nos tomamos muy en serio la privacidad y protección de los datos de nuestros clientes. Esta política detalla cómo recopilamos, usamos y protegemos la información provista.' 
+              : 'At CreatorFlow UGC, we take our clients\' privacy and data protection very seriously. This policy details how we collect, use, and protect the information provided.' }}
+          </p>
+          <p>
+            <strong>{{ isEs ? '1. Datos Recopilados' : '1. Collected Data' }}</strong><br>
+            {{ isEs 
+              ? 'Recopilamos información personal a través de nuestro formulario de contacto (Nombre, Correo Electrónico, Marca o Empresa y detalles del proyecto) con el único fin de gestionar tu cotización e iniciar el contacto comercial vía WhatsApp.' 
+              : 'We collect personal information through our contact form (Name, Email, Brand or Company, and project details) solely to manage your quote and initiate commercial contact via WhatsApp.' }}
+          </p>
+          <p>
+            <strong>{{ isEs ? '2. Uso de la Información' : '2. Use of Information' }}</strong><br>
+            {{ isEs 
+              ? 'La información recopilada se utiliza exclusivamente para la comunicación directa con el cliente, el diseño de la campaña personalizada y la facturación de los servicios. No vendemos, alquilamos ni compartimos tus datos con terceros bajo ninguna circunstancia.' 
+              : 'The collected information is used exclusively for direct communication with the client, custom campaign design, and billing of services. We do not sell, rent, or share your data with third parties under any circumstances.' }}
+          </p>
+          <p>
+            <strong>{{ isEs ? '3. Seguridad y Confidencialidad' : '3. Security & Confidentiality' }}</strong><br>
+            {{ isEs 
+              ? 'Implementamos medidas de seguridad técnicas para mantener tus datos a salvo. Cualquier material (guiones, directrices, material multimedia) compartido con nosotros para la realización de los videos se maneja de forma confidencial y es eliminado de nuestros servidores locales una vez finalizado el proyecto, a menos que el cliente indique lo contrario.' 
+              : 'We implement technical security measures to keep your data safe. Any material (scripts, guidelines, media files) shared with us to produce the videos is handled confidentially and is deleted from our local servers once the project is finished, unless otherwise requested by the client.' }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </sc-if>
 
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:900},&quot;accentColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#0B7A75&quot;},&quot;sparkColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#00FFEA&quot;},&quot;brandName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;CreatorFlow UGC&quot;},&quot;lang&quot;:{&quot;editor&quot;:&quot;es&quot;,&quot;options&quot;:[&quot;es&quot;,&quot;en&quot;]}}">
 class Component extends DCLogic {
-  state = { lang: null, openFaq: -1, now: new Date() };
+  state = { lang: null, openFaq: -1, now: new Date(), openTerms: false, openPrivacy: false };
 
   campaigns = [
-    { url: 'https://scasyxj42zki6.ok.kimi.link/' },
-    { url: 'https://6r3e25n6eqyze.ok.kimi.link/' },
-    { url: 'https://xrtawsv7e2vcg.ok.kimi.link/' },
-    { url: 'https://6lvqet6fxq5fw.ok.kimi.link/' },
-    { url: 'https://2esq62nijzq3c.ok.kimi.link/' },
-    { url: 'https://auryohgthj5pw.ok.kimi.link/' },
-    { url: 'https://czrdsgvw7axs2.ok.kimi.link/' },
-    { url: 'https://s6vttjdos2st2.ok.kimi.link/' },
-    { url: 'https://cep3qyfur5tug.ok.kimi.link/' },
-    { url: 'https://5gpopyztljmme.ok.kimi.link/' },
-    { url: 'https://mlgo4xkgnnvh2.ok.kimi.link/' },
-    { url: 'https://27uahb5yzdlcs.ok.kimi.link/' },
-    { url: 'https://nykixqlhqoisi.ok.kimi.link/' }
+    {
+      url: 'https://scasyxj42zki6.ok.kimi.link/',
+      title_en: 'Alexandra P - Fashion',
+      title_es: 'Alexandra P - Moda',
+      sub_en: 'AI Editorial Campaign for Alexandra P',
+      sub_es: 'Campaña editorial de IA para Alexandra P',
+      badge_en: 'AI Campaign',
+      badge_es: 'Campaña IA'
+    },
+    {
+      url: 'https://6r3e25n6eqyze.ok.kimi.link/',
+      title_en: 'Alexandra P - E-Commerce',
+      title_es: 'Alexandra P - E-Commerce',
+      sub_en: 'High-converting interactive layouts',
+      sub_es: 'Diseños interactivos de alta conversión',
+      badge_en: 'AI Campaign',
+      badge_es: 'Campaña IA'
+    },
+    {
+      url: 'https://s6vttjdos2st2.ok.kimi.link/',
+      title_en: 'Barbara - E-Commerce',
+      title_es: 'Barbara - E-Commerce',
+      sub_en: 'Interactive catalog for fashion retail',
+      sub_es: 'Catálogo interactivo para retail de moda',
+      badge_en: 'E-Commerce & Fashion',
+      badge_es: 'E-Commerce y Moda'
+    },
+    {
+      url: 'https://cep3qyfur5tug.ok.kimi.link/',
+      title_en: 'Barbara - Fashion Runway',
+      title_es: 'Barbara - Pasarela de Moda',
+      sub_en: 'AI-generated collection showcase',
+      sub_es: 'Exhibición de colección generada por IA',
+      badge_en: 'E-Commerce & Fashion',
+      badge_es: 'E-Commerce y Moda'
+    }
   ];
 
   animados = [
-    { cat_en: 'Claymation', cat_es: 'Claymation', title_en: 'Mascot Spot', title_es: 'Spot de Mascota', ratio: '9:16', src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781577218/tfyfh63rtbq0jb0vgxjs.mp4', poster: 'https://res.cloudinary.com/drprrdhyp/image/upload/v1781577183/ryusag6hxxpluhxia7uk.jpg', lang: 'both' },
-    { cat_en: 'Hyperreal 3D', cat_es: '3D Hiperrealista', title_en: 'Product Film', title_es: 'Film de Producto', ratio: '9:16', src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781579277/hazh9zebjbwdqo6gztq9.mp4', poster: 'https://res.cloudinary.com/drprrdhyp/image/upload/v1781577285/akxctynjppbwy0btcgk5.jpg', lang: 'both' }
+    {
+      cat_en: 'Fashion Film',
+      cat_es: 'Film de Moda',
+      title_en: 'Digital Campaign I',
+      title_es: 'Campaña Digital I',
+      ratio: '9:16',
+      src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781579277/hazh9zebjbwdqo6gztq9.mp4',
+      poster: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781579277/hazh9zebjbwdqo6gztq9.jpg',
+      lang: 'both'
+    },
+    {
+      cat_en: 'Fashion Film',
+      cat_es: 'Film de Moda',
+      title_en: 'Digital Campaign II',
+      title_es: 'Campaña Digital II',
+      ratio: '9:16',
+      src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781577274/ed8dbydtcowqcyhdxqss.mp4',
+      poster: 'https://res.cloudinary.com/drprrdhyp/image/upload/v1781577258/pynak6pw3yeqq2x8vshh.jpg',
+      lang: 'both'
+    },
+    {
+      cat_en: '3D Hyperreal',
+      cat_es: '3D Hiperrealista',
+      title_en: 'Vigo Cinematic',
+      title_es: 'Cinemática Vigo',
+      ratio: '9:16',
+      src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781577298/iqlhuaboop5nuowdxain.mp4',
+      poster: 'https://res.cloudinary.com/drprrdhyp/image/upload/v1781577287/zccjaee6jgjgjjhhvika.jpg',
+      lang: 'both'
+    },
+    {
+      cat_en: 'AI Animation',
+      cat_es: 'Animación IA',
+      title_en: 'Character Motion',
+      title_es: 'Movimiento de Personaje',
+      ratio: '9:16',
+      src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781577218/tfyfh63rtbq0jb0vgxjs.mp4',
+      poster: 'https://res.cloudinary.com/drprrdhyp/image/upload/v1781577282/mdaiy3le6wjp1dqz5icr.jpg',
+      lang: 'both'
+    }
   ];
 
   ugc_hyperrealistic = [
-    // SPANISH UGC VIDEOS
-    { cat_en: 'UGC', cat_es: 'UGC', title_en: 'Skincare Drop', title_es: 'Lanzamiento Skincare', ratio: '9:16', src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781579257/v9yqgahqabpqkg1u3p6w.mp4', poster: 'https://res.cloudinary.com/drprrdhyp/image/upload/v1781577231/lrtfxdsumrne5xk0ppyt.jpg', lang: 'es' },
-    { cat_en: 'UGC Creator', cat_es: 'Creador UGC', title_en: 'Hero Ad', title_es: 'Anuncio Hero', ratio: '9:16', src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781579251/yp4ejvrwwngh6viy3ymg.mp4', poster: 'https://res.cloudinary.com/drprrdhyp/image/upload/v1781577229/sakycwg3hp2uzc6kuuvw.jpg', lang: 'es' },
-    { cat_en: 'UGC Ad', cat_es: 'Anuncio UGC', title_en: 'Beauty Hook', title_es: 'Gancho de Belleza', ratio: '9:16', src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781579238/wlyikmyq5ibg2plepcsq.mp4', poster: 'https://res.cloudinary.com/drprrdhyp/image/upload/v1781577222/zar9pwvwzoqmyxtxbtfg.jpg', lang: 'es' },
-    { cat_en: 'UGC Ad', cat_es: 'Anuncio UGC', title_en: 'Product Story', title_es: 'Historia de Producto', ratio: '9:16', src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781577252/vvsvzcgvvlwbvtvhxr1s.mp4', poster: 'https://res.cloudinary.com/drprrdhyp/image/upload/v1781577233/b1psuxxpakkqhnkd190z.jpg', lang: 'es' },
-    { cat_en: 'UGC Ad', cat_es: 'Anuncio UGC', title_en: 'Lifestyle', title_es: 'Lifestyle', ratio: '9:16', src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781579242/qfvjuoflchvapjwsoc7h.mp4', poster: 'https://res.cloudinary.com/drprrdhyp/image/upload/v1781577225/bbs0lg6ct4qn1dw9joak.jpg', lang: 'es' },
-    { cat_en: 'UGC Ad', cat_es: 'Anuncio UGC', title_en: 'Brand Reveal', title_es: 'Revelación de Marca', ratio: '9:16', src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781579247/k9hxawenohzb5wtnfbkb.mp4', poster: 'https://res.cloudinary.com/drprrdhyp/image/upload/v1781577227/trmqgzj1girmrrngflva.jpg', lang: 'es' },
-    { cat_en: 'Podcast', cat_es: 'Podcast', title_en: 'Episode Clip', title_es: 'Clip de Episodio', ratio: '9:16', src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781579263/np3amtigc9k4i3a3pp1k.mp4', poster: 'https://res.cloudinary.com/drprrdhyp/image/upload/v1781577280/yjfjvnhw9n4rm2iwp8xg.jpg', lang: 'es' },
-    { cat_en: 'Podcast', cat_es: 'Podcast', title_en: 'Vigo Ep. 4', title_es: 'Vigo Ep. 4', ratio: '9:16', src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781579272/afxlpijr2kf1pquzva3l.mp4', poster: 'https://res.cloudinary.com/drprrdhyp/image/upload/v1781577284/inzeww0fssf7yewgbes0.jpg', lang: 'es' },
-    { cat_en: 'Cinematic', cat_es: 'Cine', title_en: 'Vigo Reel', title_es: 'Vigo Reel', ratio: '9:16', src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781577298/iqlhuaboop5nuowdxain.mp4', poster: 'https://res.cloudinary.com/drprrdhyp/image/upload/v1781577287/zccjaee6jgjgjjhhvika.jpg', lang: 'es' },
-
-    // ENGLISH UGC & PODCAST VIDEOS
-    { cat_en: 'Podcast', cat_es: 'Podcast', title_en: 'AI Growth Clip', title_es: 'Clip sobre Crecimiento IA', ratio: '9:16', src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781577305/qsepptch1j5ilhty788i.mp4', poster: 'https://res.cloudinary.com/drprrdhyp/image/upload/v1781577304/g74pes3rn8hjcgycluik.jpg', lang: 'en' },
-    { cat_en: 'Podcast', cat_es: 'Podcast', title_en: 'Tech Future Clip', title_es: 'Clip del Futuro de la Tecnología', ratio: '9:16', src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781577302/lczhdasuh2jnj0obfh4l.mp4', poster: 'https://res.cloudinary.com/drprrdhyp/image/upload/v1781577117/kbj3rbrkcpt5ykpcm2vv.jpg', lang: 'en' },
-    { cat_en: 'Podcast', cat_es: 'Podcast', title_en: 'Strategy Discussion', title_es: 'Discusión de Estrategia', ratio: '9:16', src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781577316/ktnklqacpoqyfgu3ynrl.mov', poster: 'https://res.cloudinary.com/drprrdhyp/image/upload/v1781577307/rnodexcodpaclgumd9n9.jpg', lang: 'en' },
-    { cat_en: 'Cinematic', cat_es: 'Cine', title_en: 'Brand Film', title_es: 'Film de Marca', ratio: '9:16', src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781579268/bzcpibzfwe2pm970yook.mp4', poster: 'https://res.cloudinary.com/drprrdhyp/image/upload/v1781577282/mdaiy3le6wjp1dqz5icr.jpg', lang: 'en' },
-    { cat_en: 'Fashion', cat_es: 'Moda', title_en: 'Karaama London', title_es: 'Karaama London', ratio: '9:16', src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781577274/ed8dbydtcowqcyhdxqss.mp4', poster: 'https://res.cloudinary.com/drprrdhyp/image/upload/v1781577258/pynak6pw3yeqq2x8vshh.jpg', lang: 'en' }
+    // AI Podcast Videos
+    {
+      cat_en: 'AI Podcast',
+      cat_es: 'AI Podcast',
+      title_en: 'Lifestyle Hook',
+      title_es: 'Gancho de Estilo de Vida',
+      ratio: '9:16',
+      src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781579242/qfvjuoflchvapjwsoc7h.mp4',
+      poster: 'https://res.cloudinary.com/drprrdhyp/image/upload/v1781577225/bbs0lg6ct4qn1dw9joak.jpg',
+      lang: 'both',
+      subcat: 'podcast'
+    },
+    {
+      cat_en: 'AI Podcast',
+      cat_es: 'AI Podcast',
+      title_en: 'Growth Clip',
+      title_es: 'Clip de Crecimiento',
+      ratio: '9:16',
+      src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781577305/qsepptch1j5ilhty788i.mp4',
+      poster: 'https://res.cloudinary.com/drprrdhyp/image/upload/v1781577304/g74pes3rn8hjcgycluik.jpg',
+      lang: 'both',
+      subcat: 'podcast'
+    },
+    {
+      cat_en: 'AI Podcast',
+      cat_es: 'AI Podcast',
+      title_en: 'Strategy Discussion',
+      title_es: 'Discusión de Estrategia',
+      ratio: '9:16',
+      src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781577316/ktnklqacpoqyfgu3ynrl.mov',
+      poster: 'https://res.cloudinary.com/drprrdhyp/image/upload/v1781577307/rnodexcodpaclgumd9n9.jpg',
+      lang: 'both',
+      subcat: 'podcast'
+    },
+    // UGC Talking Heads & Influencers
+    {
+      cat_en: 'UGC Talking Head',
+      cat_es: 'UGC Talking Head',
+      title_en: 'Product Storytelling',
+      title_es: 'Storytelling de Producto',
+      ratio: '9:16',
+      src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781577252/vvsvzcgvvlwbvtvhxr1s.mp4',
+      poster: 'https://res.cloudinary.com/drprrdhyp/image/upload/v1781577233/b1psuxxpakkqhnkd190z.jpg',
+      lang: 'both',
+      subcat: 'talkinghead'
+    },
+    {
+      cat_en: 'UGC Talking Head',
+      cat_es: 'UGC Talking Head',
+      title_en: 'Creator Hook',
+      title_es: 'Gancho de Creador',
+      ratio: '9:16',
+      src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781579251/yp4ejvrwwngh6viy3ymg.mp4',
+      poster: 'https://res.cloudinary.com/drprrdhyp/image/upload/v1781577229/sakycwg3hp2uzc6kuuvw.jpg',
+      lang: 'both',
+      subcat: 'talkinghead'
+    }
   ];
 
   data = {
     en: {
       nav: { work:'Work', cases:'Cases', services:'Services', fashion:'Campaigns', method:'Method', about:'Studio', book:'Book a call' },
-      hero: { kicker:'AI Content Studio', title:'Real-looking content. Real conversions.', sub:'You focus on selling. We focus on creating. Bilingual AI UGC Ads | English & Spanish', cta:'See the work', place:'Madrid · Worldwide' },
-      marquee: ['UGC','Fashion campaigns','Hyperreal 3D','AI talent','Podcasts','Claymation','Cinematic ads','Digital clones','Sound design'],
+      hero: { kicker:'AI Creative Studio', title:'Hyper Real content that converts your advertising into revenue.', sub:'You focus on selling. We focus on creating. Bilingual AI UGC Ads | English & Spanish', cta:'See the work', place:'Madrid · Worldwide' },
+      marquee: ['UGC','Fashion campaigns','Hyperreal 3D','Podcasts','Claymation','Digital clones','Disney-Pixar style'],
       manifesto: { label:'( How we think )', big:'The feed never stops. Most brands can\'t keep up — posting slow, generic, forgettable. CreatorFlow turns the best AI models into a content engine: scroll-stopping UGC, fashion and 3D that look shot, not generated.', sign:'— content that flows.' },
-      servicesLabel:'What we make', servicesTitle:'Services',
-      services: [
-        { num:'01', title:'UGC Ads', desc:'Creator-style ads that feel human, stop the scroll and convert — made at the speed of the feed.', tags:['Vertical','Hooks','Performance'] },
-        { num:'02', title:'Fashion Campaigns', desc:'Editorial campaigns with 100% AI-generated digital models and clones — lookbooks, drops and full brand worlds.', tags:['AI clones','Editorial','Lookbook'] },
-        { num:'03', title:'Hyperreal 3D', desc:'Zack-style hyperreal 3D characters and product films that blur the line with reality.', tags:['3D','Product','VFX'] },
-        { num:'04', title:'AI Podcasts', desc:'Full episodes and short-form clips — voices, music and sound, produced end to end.', tags:['Audio','Clips','Voiceover'] },
-        { num:'05', title:'Claymation', desc:'Disney-grade clay characters and worlds — no studio, no months of production.', tags:['Characters','Stop-motion','Disney-style'] },
-        { num:'06', title:'Cinematic Ads', desc:'Hollywood-look commercials, without the Hollywood budget.', tags:['Film','Color','Story'] }
-      ],
+      services: {
+        kicker: 'What we do',
+        title: 'AI UGC Ads',
+        desc: 'We create hyper-realistic AI UGC ads designed to look authentic and drive results.',
+        card1Title: 'Services',
+        list: [
+          'Hyper-Realistic AI UGC',
+          'Talking Head Ads',
+          'Product Reviews',
+          'Unboxing Videos',
+          'Podcast-Style Videos',
+          'Testimonials',
+          'App & Software Demos',
+          'Animated Videos',
+          'AI B-Roll',
+          'Creatives for Meta, TikTok & YouTube'
+        ],
+        card2Title: 'Details',
+        langLabel: 'Languages',
+        langVal: 'We create content in English and Spanish.',
+        durLabel: 'Duration & Pricing',
+        durVal: 'Videos from 20 to 120 seconds. Pricing depends on duration and project complexity.',
+        delLabel: 'Delivery',
+        delVal: 'Delivered within 3–5 business days. Ready-to-publish formats for social media and paid ads.',
+        card3Title: 'Delivery Options',
+        optA: 'Final Video',
+        optABadge: 'Ready to publish',
+        optAList: [
+          'Fully edited',
+          'Music included',
+          'Captions included',
+          'Ready to publish'
+        ],
+        optB: 'Raw Footage',
+        optBBadge: 'Unedited files',
+        optBList: [
+          'Unedited files',
+          'Ideal for internal teams or agencies'
+        ],
+        card4Title: 'Monthly Plans',
+        card4Desc: 'We work with brands and agencies that need a constant flow of creatives for testing and scaling.',
+        card4CTA: 'Ask about our monthly plans.',
+        slogan1: 'Real-looking content. Real conversions.',
+        slogan2: 'You focus on selling. We focus on creating.'
+      },
       pipeline: { label:'AI pipeline', title:'From prompt to premiere.' },
       pipelineSteps: [
         { icon:'✦', name:'Brief', desc:'Brand, hook and format defined' },
@@ -634,16 +1226,24 @@ class Component extends DCLogic {
       ],
       work: { label:'Selected work', title:'Proof, not promises.', sub:'Every frame produced end to end with AI.', featured:'Showreel 2026' },
       sections: {
-        animated: '1. Animated',
-        ugc: '2. UGC Hyper Realistic (Podcast - Talking Head - B-Rolls)'
+        animated: '1. Animated & 3D',
+        ugc: '2. UGC Hyper Realistic (Podcast - Talking Head - B-Rolls)',
+        sub_podcast: 'AI Podcast',
+        sub_talkinghead: 'UGC Talking Heads & Influencers'
       },
       fashion: { label:'AI Campaigns', title:'E-Commerce & Fashion Campaigns.', sub:'Interactive fashion and e-commerce campaigns built 100% with AI. Hover over any card to preview the live site.', badge:'AI Campaign', view:'View site' },
-      method: { label:'How it works', title:'From idea to premiere.' },
-      methodSteps: [
-        { num:'01', title:'Brief & hook', desc:'We learn your product and lock an idea worth stopping for.' },
-        { num:'02', title:'We build', desc:'Script, talent, visuals, animation and sound — produced end to end with AI and human direction.' },
-        { num:'03', title:'Premiere', desc:'Preview, refine, and get final files ready for every channel.' }
-      ],
+      process: {
+        label: 'Process',
+        title: 'How we make it happen.',
+        steps: [
+          { num: '01', title: 'Send us your script.' },
+          { num: '02', title: 'Share your references and requirements.' },
+          { num: '03', title: 'We create the content.' },
+          { num: '04', title: 'First delivery.' },
+          { num: '05', title: '1 revision included per video.' },
+          { num: '06', title: 'Final delivery.' }
+        ]
+      },
       stats: [
         { num:'20M+', label:'Organic views generated' },
         { num:'72h', label:'Fastest delivery' },
@@ -657,25 +1257,85 @@ class Component extends DCLogic {
         { q:'Are the fashion models real people?', a:'No. Our models are 100% AI-generated digital clones — not real individuals. We create them entirely with generative AI tools.' },
         { q:'Which languages do you work in?', a:'Everything is delivered in English and Spanish — voices, captions and copy included.' },
         { q:'Do I own the final content?', a:'Yes. You get full commercial rights and clean files with no watermarks.' },
-        { q:'How many revisions are included?', a:'Three rounds of revisions come standard, with all AI generation included in a flat price.' }
+        { q:'How is payment handled?', a:'Payment is made in advance. The currency and transaction method (bank transfer, Stripe, etc.) are agreed directly with the client before starting the project.' },
+        { q:'How many revisions are included?', a:'We include exactly 1 round of revisions per video to ensure quick delivery and optimal quality.' }
       ],
       cta: { label:'( Let\'s talk )', title:'Let\'s make your feed unmissable.', sub:'Tell us what you\'re launching. We\'ll make the content flow.', button:'Book a call', email:'hola@creatorflow.studio' },
-      footer: { tagline:'AI content studio — UGC, fashion campaigns, hyperreal 3D & podcasts.', rights:'© 2026 CreatorFlow UGC. All rights reserved.', back:'Back to top' }
+      footer: { tagline:'AI content studio — UGC, fashion campaigns, hyperreal 3D & podcasts.', rights:'© 2026 CreatorFlow UGC. All rights reserved.', back:'Back to top', contact1Label:'Contact (ES)', contact2Label:'Contact (AU)' },
+      contact: {
+        kicker: '( Let\'s talk )',
+        title: 'Let\'s make your feed unmissable.',
+        desc: 'Tell us about your brand or campaign. Fill out the form and we will redirect you to WhatsApp to schedule immediately.',
+        directChat: 'WhatsApp Direct',
+        name: 'Your Name',
+        email: 'Your Email',
+        brand: 'Brand or Company',
+        service: 'Service of Interest',
+        details: 'Project Details',
+        placeholderName: 'e.g. Alex',
+        placeholderEmail: 'e.g. alex@brand.com',
+        placeholderBrand: 'e.g. E-Commerce Inc.',
+        placeholderDetails: 'Tell us a bit more about what you need...',
+        button: 'Let\'s Talk on WhatsApp',
+        terms: 'Terms & Conditions',
+        privacy: 'Privacy Policy',
+        serviceUgc: 'AI UGC Ads',
+        service3d: 'Animated & 3D',
+        serviceFashion: 'Fashion Campaigns',
+        serviceMonthly: 'Monthly Plans',
+        serviceOther: 'Other'
+      }
     },
     es: {
       nav: { work:'Trabajo', cases:'Casos', services:'Servicios', fashion:'Campañas', method:'Método', about:'Estudio', book:'Agenda una llamada' },
-      hero: { kicker:'Estudio de Contenido IA', title:'Contenido con apariencia real. Conversiones reales.', sub:'Tú te enfocas en vender. Nosotros en crear. Anuncios UGC con IA bilingües | Inglés y Español', cta:'Ver el trabajo', place:'Madrid · Todo el mundo' },
-      marquee: ['UGC','Campañas de moda','3D hiperrealista','Talento IA','Podcasts','Claymation','Anuncios de cine','Clones digitales','Diseño de sonido'],
+      hero: { kicker:'Estudio Creativo IA', title:'Contenido Hyper Real que convierte tu publicidad en ingresos.', sub:'Tú te enfocas en vender. Nosotros en crear. Anuncios UGC con IA bilingües | Inglés y Español', cta:'Ver el trabajo', place:'Madrid · Todo el mundo' },
+      marquee: ['UGC','Campañas de moda','3D hiperrealista','Podcasts','Claymation','Clones digitales','Estilo Disney Pixar'],
       manifesto: { label:'( Cómo pensamos )', big:'El feed nunca para. La mayoría de marcas no aguanta el ritmo — publican lento, genérico, olvidable. CreatorFlow convierte los mejores modelos de IA en un motor de contenido: UGC, moda y 3D que parecen rodados, no generados.', sign:'— contenido que fluye.' },
-      servicesLabel:'Lo que hacemos', servicesTitle:'Servicios',
-      services: [
-        { num:'01', title:'Anuncios UGC', desc:'Anuncios estilo creador que frenan el scroll y convierten — a la velocidad del feed.', tags:['Vertical','Ganchos','Performance'] },
-        { num:'02', title:'Campañas de moda', desc:'Campañas editoriales con modelos 100% generadas con IA y clones digitales — lookbooks, lanzamientos y mundos de marca.', tags:['Clones IA','Editorial','Lookbook'] },
-        { num:'03', title:'3D hiperrealista', desc:'Personajes y films de producto estilo Zack que difuminan la línea con la realidad.', tags:['3D','Producto','VFX'] },
-        { num:'04', title:'Podcasts con IA', desc:'Episodios completos y clips — voces, música y sonido, producidos de principio a fin.', tags:['Audio','Clips','Voces'] },
-        { num:'05', title:'Claymation', desc:'Personajes y mundos de plastilina nivel Disney — sin estudio ni meses de producción.', tags:['Personajes','Stop-motion','Estilo Disney'] },
-        { num:'06', title:'Anuncios de cine', desc:'Comerciales con look de Hollywood, sin presupuesto de Hollywood.', tags:['Cine','Color','Historia'] }
-      ],
+      services: {
+        kicker: 'Lo que hacemos',
+        title: 'Anuncios UGC con IA',
+        desc: 'Creamos anuncios UGC con IA hiperrealistas, diseñados para verse auténticos y generar conversiones.',
+        card1Title: 'Servicios',
+        list: [
+          'UGC con IA Hiperrealista',
+          'Anuncios Talking Head',
+          'Reseñas de Producto',
+          'Videos de Unboxing',
+          'Videos Estilo Podcast',
+          'Testimoniales',
+          'Demos de Apps y Software',
+          'Videos Animados',
+          'B-Roll generado por IA',
+          'Creativos para Meta, TikTok y YouTube'
+        ],
+        card2Title: 'Especificaciones',
+        langLabel: 'Idiomas',
+        langVal: 'Creamos contenido en inglés y español.',
+        durLabel: 'Duración y Precios',
+        durVal: 'Videos de 20 a 120 segundos. El precio depende de la duración y la complejidad.',
+        delLabel: 'Tiempos de Entrega',
+        delVal: 'Entrega en 3–5 días hábiles. Formatos listos para publicar en redes sociales y campañas.',
+        card3Title: 'Opciones de Entrega',
+        optA: 'Video Final',
+        optABadge: 'Listo para publicar',
+        optAList: [
+          'Totalmente editado',
+          'Música incluida',
+          'Subtítulos incluidos',
+          'Listo para publicar'
+        ],
+        optB: 'Material en Bruto',
+        optBBadge: 'Archivos sin editar',
+        optBList: [
+          'Archivos sin editar',
+          'Ideal para equipos internos o agencias'
+        ],
+        card4Title: 'Planes Mensuales',
+        card4Desc: 'Trabajamos con marcas y agencias que necesitan un flujo constante de creativos para testing y escalado.',
+        card4CTA: 'Pregunta por nuestros planes mensuales.',
+        slogan1: 'Contenido que se ve real. Resultados reales.',
+        slogan2: 'Tú te encargas de vender. Nosotros nos encargamos de crear.'
+      },
       pipeline: { label:'Pipeline de IA', title:'De prompt a estreno.' },
       pipelineSteps: [
         { icon:'✦', name:'Brief', desc:'Marca, gancho y formato definidos' },
@@ -686,16 +1346,24 @@ class Component extends DCLogic {
       ],
       work: { label:'Trabajo seleccionado', title:'Pruebas, no promesas.', sub:'Cada fotograma producido de principio a fin con IA.', featured:'Showreel 2026' },
       sections: {
-        animated: '1. Animados',
-        ugc: '2. UGC Hiperrealista (Podcast - Talking Head - B-Rolls)'
+        animated: '1. Animados y 3D',
+        ugc: '2. UGC Hiperrealista (Podcast - Talking Head - B-Rolls)',
+        sub_podcast: 'AI Podcast',
+        sub_talkinghead: 'UGC Talking Heads & Influencers'
       },
       fashion: { label:'Campañas IA', title:'Campañas de E-Commerce y Moda.', sub:'Campañas interactivas de moda y e-commerce creadas 100% con IA. Pasa el cursor sobre cualquier tarjeta para previsualizar el sitio.', badge:'Campaña IA', view:'Ver sitio' },
-      method: { label:'Cómo funciona', title:'De la idea al estreno.' },
-      methodSteps: [
-        { num:'01', title:'Brief & gancho', desc:'Conocemos tu producto y cerramos una idea que valga la pena ver.' },
-        { num:'02', title:'Producimos', desc:'Guion, talento, visuales, animación y sonido — de principio a fin con IA y dirección humana.' },
-        { num:'03', title:'Estreno', desc:'Previsualiza, ajusta y recibe los archivos finales listos para cada canal.' }
-      ],
+      process: {
+        label: 'Proceso',
+        title: 'Cómo lo hacemos realidad.',
+        steps: [
+          { num: '01', title: 'Envíanos tu guion.' },
+          { num: '02', title: 'Comparte tus referencias y requerimientos.' },
+          { num: '03', title: 'Creamos el contenido.' },
+          { num: '04', title: 'Primera entrega.' },
+          { num: '05', title: '1 revisión incluida por video.' },
+          { num: '06', title: 'Entrega final.' }
+        ]
+      },
       stats: [
         { num:'20M+', label:'Vistas orgánicas generadas' },
         { num:'72h', label:'Entrega más rápida' },
@@ -709,10 +1377,34 @@ class Component extends DCLogic {
         { q:'¿Los modelos de las campañas son personas reales?', a:'No. Son clones digitales 100% generados con IA — no son personas reales. Los creamos íntegramente con herramientas de IA generativa.' },
         { q:'¿En qué idiomas trabajan?', a:'Todo se entrega en inglés y español — voces, subtítulos y copy incluidos.' },
         { q:'¿El contenido final es mío?', a:'Sí. Recibes derechos comerciales completos y archivos limpios, sin marcas de agua.' },
-        { q:'¿Cuántas revisiones incluye?', a:'Tres rondas de revisión de serie, con toda la generación de IA incluida en un precio cerrado.' }
+        { q:'¿Cómo se realiza el pago?', a:'El pago es anticipado. Acordamos directamente con el cliente la moneda y el medio de transacción (transferencia bancaria, Stripe, etc.) antes de iniciar el proyecto.' },
+        { q:'¿Cuántas revisiones incluye?', a:'Incluimos exactamente 1 revisión por video para asegurar una entrega rápida y calidad óptima.' }
       ],
       cta: { label:'( Hablemos )', title:'Hagamos tu feed imparable.', sub:'Cuéntanos qué vas a lanzar. Nosotros hacemos que el contenido fluya.', button:'Agenda una llamada', email:'hola@creatorflow.studio' },
-      footer: { tagline:'Estudio de contenido IA — UGC, campañas de moda, 3D hiperrealista y podcasts.', rights:'© 2026 CreatorFlow UGC. Todos los derechos reservados.', back:'Volver arriba' }
+      footer: { tagline:'Estudio de contenido IA — UGC, campañas de moda, 3D hiperrealista y podcasts.', rights:'© 2026 CreatorFlow UGC. Todos los derechos reservados.', back:'Volver arriba', contact1Label:'Contacto (ES)', contact2Label:'Contacto (AU)' },
+      contact: {
+        kicker: '( Hablemos )',
+        title: 'Hagamos tu feed imparable.',
+        desc: 'Cuéntanos sobre tu marca o campaña. Rellena el formulario y te redirigiremos a WhatsApp para agendar de inmediato.',
+        directChat: 'WhatsApp Directo',
+        name: 'Tu Nombre',
+        email: 'Tu Email',
+        brand: 'Marca o Empresa',
+        service: 'Servicio de Interés',
+        details: 'Detalles del Proyecto',
+        placeholderName: 'Ej. Alex',
+        placeholderEmail: 'Ej. alex@marca.com',
+        placeholderBrand: 'Ej. E-Commerce Inc.',
+        placeholderDetails: 'Cuéntanos un poco más sobre lo que necesitas...',
+        button: 'Hablemos por WhatsApp',
+        terms: 'Términos y Condiciones',
+        privacy: 'Política de Privacidad',
+        serviceUgc: 'Anuncios UGC con IA',
+        service3d: 'Animados y 3D',
+        serviceFashion: 'Campañas de Moda',
+        serviceMonthly: 'Planes Mensuales',
+        serviceOther: 'Otro'
+      }
     }
   };
 
@@ -727,6 +1419,7 @@ class Component extends DCLogic {
     this._initCursor();
     this._initNeuralCanvas();
     this._initIframeHover();
+    this._initServicesGlow();
   }
   componentWillUnmount() {
     if (this._clock) clearInterval(this._clock);
@@ -839,12 +1532,15 @@ class Component extends DCLogic {
   }
 
   _initShowreel() {
-    const self = this;
+    let tries = 0;
     (function go() {
       const vid = document.getElementById('hero-preview-vid');
       const wrap = document.getElementById('hero-preview-wrap');
       const overlay = document.getElementById('hero-preview-overlay');
-      if (!vid || !wrap || !overlay) return setTimeout(go, 200);
+      if (!vid || !wrap || !overlay) {
+        if (tries++ < 20) setTimeout(go, 200);
+        return;
+      }
       wrap.addEventListener('click', function() {
         if (vid.paused) {
           vid.play().catch(function(){});
@@ -871,9 +1567,56 @@ class Component extends DCLogic {
         const vid = card.querySelector('video');
         if (!vid || card._cfBound) return;
         card._cfBound = true;
+        
         vid.addEventListener('loadedmetadata', function() { vid.currentTime = 0.01; });
-        card.addEventListener('mouseenter', function() { vid.play().catch(function(){}); });
-        card.addEventListener('mouseleave', function() { vid.pause(); vid.currentTime = 0.01; });
+        
+        // Click to play/pause
+        card.addEventListener('click', function(e) {
+          // Toggle video play
+          if (vid.paused) {
+            // Pause all other playing videos in this section or page
+            cards.forEach(function(otherCard) {
+              if (otherCard !== card && otherCard.classList.contains('is-playing')) {
+                const otherVid = otherCard.querySelector('video');
+                if (otherVid) {
+                  otherVid.pause();
+                  otherCard.classList.remove('is-playing');
+                  const otherPlayIcon = otherCard.querySelector('.cf-play-btn path');
+                  if (otherPlayIcon) otherPlayIcon.setAttribute('d', 'M8 5V19L19 12L8 5Z');
+                }
+              }
+            });
+            
+            vid.play().then(function() {
+              card.classList.add('is-playing');
+              const playIcon = card.querySelector('.cf-play-btn path');
+              if (playIcon) playIcon.setAttribute('d', 'M6 19h4V5H6v14zm8-14v14h4V5h-4z'); // Pause path
+            }).catch(function(){});
+          } else {
+            vid.pause();
+            card.classList.remove('is-playing');
+            const playIcon = card.querySelector('.cf-play-btn path');
+            if (playIcon) playIcon.setAttribute('d', 'M8 5V19L19 12L8 5Z'); // Play path
+          }
+        });
+      });
+    })();
+  }
+
+  _initServicesGlow() {
+    const self = this;
+    (function go() {
+      const root = self.rootEl || document;
+      const cards = root.querySelectorAll('.services-card');
+      if (!cards.length) return setTimeout(go, 400);
+      cards.forEach(function(card) {
+        card.addEventListener('mousemove', function(e) {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          card.style.setProperty('--mouse-x', x + 'px');
+          card.style.setProperty('--mouse-y', y + 'px');
+        });
       });
     })();
   }
@@ -947,17 +1690,17 @@ class Component extends DCLogic {
                       iframe.src = url;
                     }
                   }, delay);
-                  delay += 500; // Load one iframe every 500ms
+                  delay += 80;
                 }
               });
               observer.unobserve(section);
             }
           });
-        }, { rootMargin: '300px 0px' });
+        }, { rootMargin: '800px 0px' });
         observer.observe(section);
       } else {
         window.addEventListener('load', () => {
-          let delay = 1000;
+          let delay = 200;
           cards.forEach((card) => {
             const iframe = card.querySelector('iframe');
             const url = card.getAttribute('data-url');
@@ -967,7 +1710,7 @@ class Component extends DCLogic {
                   iframe.src = url;
                 }
               }, delay);
-              delay += 500;
+              delay += 80;
             }
           });
         });
@@ -1046,8 +1789,11 @@ class Component extends DCLogic {
         title: isEs ? item.title_es : item.title_en,
         ratio: item.ratio,
         src: item.src,
-        poster: item.poster
+        poster: item.poster,
+        subcat: item.subcat
       }));
+    const podcastList = ugcList.filter(item => item.subcat === 'podcast');
+    const talkingHeadList = ugcList.filter(item => item.subcat === 'talkinghead');
 
     const faqItems = t.faq.map((f, i) => ({
       q: f.q, a: f.a,
@@ -1056,18 +1802,41 @@ class Component extends DCLogic {
       onToggle: () => this.setState(s => ({ openFaq: s.openFaq === i ? -1 : i }))
     }));
     
-    const campaignsList = this.campaigns.map((c, i) => {
-      const num = String(i + 1).padStart(2, '0');
+    const campaignsList = this.campaigns.map((c) => {
       return {
         url: c.url,
-        title: isEs ? `Campaña #${num}` : `Campaign #${num}`,
-        subtitle: isEs ? 'Haz clic para abrir el sitio web' : 'Click to open the website',
-        badge: isEs ? `Campaña #${num}` : `Campaign #${num}`
+        title: isEs ? c.title_es : c.title_en,
+        subtitle: isEs ? c.sub_es : c.sub_en,
+        badge: isEs ? c.badge_es : c.badge_en
       };
     });
     
     return {
       setRoot: (el) => { if (el) self.rootEl = el; },
+      handleFormSubmit: (e) => {
+        if (e && e.preventDefault) e.preventDefault();
+        const nameVal = document.getElementById('form-name')?.value || '';
+        const emailVal = document.getElementById('form-email')?.value || '';
+        const brandVal = document.getElementById('form-brand')?.value || '';
+        const checkedServices = Array.from(document.querySelectorAll('input[name="form-service"]:checked')).map(cb => cb.value);
+        const serviceVal = checkedServices.length ? checkedServices.join(', ') : '';
+        const messageVal = document.getElementById('form-message')?.value || '';
+        
+        const intro = isEs 
+          ? 'Hola CreatorFlow, he completado el formulario de contacto con los siguientes datos:'
+          : 'Hello CreatorFlow, I have filled out the contact form with the following details:';
+        
+        const nameLabel = isEs ? 'Nombre' : 'Name';
+        const emailLabel = isEs ? 'Email' : 'Email';
+        const brandLabel = isEs ? 'Marca/Empresa' : 'Brand/Company';
+        const serviceLabel = isEs ? 'Servicio de Interés' : 'Service of Interest';
+        const messageLabel = isEs ? 'Mensaje/Detalles' : 'Message/Details';
+
+        const text = `${intro}\n\n* ${nameLabel}: ${nameVal}\n* ${emailLabel}: ${emailVal}\n* ${brandLabel}: ${brandVal}\n* ${serviceLabel}: ${serviceVal}\n* ${messageLabel}: ${messageVal}`;
+        const whatsappNumber = '56978698180'; // Redirect to the client's direct number: +56 978698180
+        const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
+        window.open(url, '_blank');
+      },
       accent: this.props.accentColor || '#0B7A75',
       spark: this.props.sparkColor || '#00FFEA',
       brand: this.props.brandName || 'CreatorFlow UGC',
@@ -1082,11 +1851,17 @@ class Component extends DCLogic {
       services: t.services,
       animados: animatedList,
       ugc_hyperrealistic: ugcList,
+      ugc_podcast: podcastList,
+      ugc_talkinghead: talkingHeadList,
       method: t.methodSteps,
       stats: t.stats,
       pipeline: t.pipelineSteps,
       faqItems,
       campaigns: campaignsList,
+      openTerms: this.state.openTerms,
+      openPrivacy: this.state.openPrivacy,
+      toggleTerms: () => this.setState(s => ({ openTerms: !s.openTerms })),
+      togglePrivacy: () => this.setState(s => ({ openPrivacy: !s.openPrivacy })),
       techStack: ['Seedance 2.0','Runway Gen-4','Kling 2.0','Google Veo 3','Midjourney v7','ElevenLabs','Suno AI','After Effects','Freepik Spaces','Seedream 5.0']
     };
   }
