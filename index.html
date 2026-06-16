@@ -937,9 +937,9 @@ html,body{margin:0;background:#050C0B}
       <div style="display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
         <span>{{ t.footer.rights }}</span>
         <span style="color:rgba(240,244,243,0.15)">|</span>
-        <button onClick="{{ toggleTerms }}" style="background:none; border:none; color:inherit; font:inherit; cursor:pointer; padding:0; text-decoration:none; transition:color .15s" onmouseenter="this.style.color='#00FFEA'" onmouseleave="this.style.color='rgba(240,244,243,.35)'">{{ isEs ? 'Términos y Condiciones' : 'Terms & Conditions' }}</button>
+        <button onClick="{{ toggleTerms }}" style="background:none; border:none; color:rgba(240,244,243,.35); font-family:'Space Grotesk',sans-serif; font-size:12px; cursor:pointer; padding:0; transition:color .15s" onmouseenter="this.style.color='#00FFEA'" onmouseleave="this.style.color='rgba(240,244,243,.35)'">{{ t.contact.terms }}</button>
         <span style="color:rgba(240,244,243,0.15)">|</span>
-        <button onClick="{{ togglePrivacy }}" style="background:none; border:none; color:inherit; font:inherit; cursor:pointer; padding:0; text-decoration:none; transition:color .15s" onmouseenter="this.style.color='#00FFEA'" onmouseleave="this.style.color='rgba(240,244,243,.35)'">{{ isEs ? 'Política de Privacidad' : 'Privacy Policy' }}</button>
+        <button onClick="{{ togglePrivacy }}" style="background:none; border:none; color:rgba(240,244,243,.35); font-family:'Space Grotesk',sans-serif; font-size:12px; cursor:pointer; padding:0; transition:color .15s" onmouseenter="this.style.color='#00FFEA'" onmouseleave="this.style.color='rgba(240,244,243,.35)'">{{ t.contact.privacy }}</button>
       </div>
       <div>
         <a href="#top" style="color:inherit; text-decoration:none; transition:color .15s" onmouseenter="this.style.color='#00FFEA'" onmouseleave="this.style.color='rgba(240,244,243,.35)'">{{ t.footer.back }} ↑</a>
