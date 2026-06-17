@@ -521,30 +521,16 @@ html,body{margin:0;background:#050C0B}
         <span style="display:inline-block; width:6px; height:6px; background:#B5FF00; border-radius:50%; box-shadow:0 0 8px #B5FF00; animation:cfbreathe 1.5s ease infinite"></span>
         {{ isEs ? 'Haz clic en cualquier video para reproducir' : 'Click on any video to play' }}
       </div>
-      <div class="dnd-grid-four">
+      <div class="dnd-grid-ugc">
         <sc-for list="{{ animados }}" as="slot">
           <div data-reveal class="cf-card">
             <video src="{{ slot.src }}" poster="{{ slot.poster }}" muted playsinline loop preload="none"></video>
             <div class="cf-grad"></div>
-            <div style="position:absolute;top:12px;left:12px;font-size:10px;letter-spacing:.08em;color:rgba(240,244,243,.8);border:1px solid rgba(240,244,243,.25);border-radius:100px;padding:3px 9px;background:rgba(5,12,11,.6)">{{ slot.ratio }}</div>
             <!-- Branded Play Button Overlay -->
             <div class="cf-play-btn" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:48px; height:48px; border-radius:50%; background:rgba(11, 24, 23, 0.65); border:1px solid rgba(0, 255, 234, 0.45); display:flex; align-items:center; justify-content:center; backdrop-filter:blur(8px); transition:all 0.3s ease; z-index:6; box-shadow:0 0 15px rgba(0,255,234,0.15);">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="transform:translateX(1px); transition:all 0.3s;">
                 <path d="M8 5V19L19 12L8 5Z" fill="#00FFEA"/>
               </svg>
-            </div>
-            <!-- Interactive HUD Scanner overlay (Hollywood effect) -->
-            <div class="cf-hud-scanner">
-              <div class="hud-scanner-line"></div>
-              <div class="hud-corner top-left"></div>
-              <div class="hud-corner top-right"></div>
-              <div class="hud-corner bottom-left"></div>
-              <div class="hud-corner bottom-right"></div>
-              <div class="hud-text">AI SCAN // OK</div>
-            </div>
-            <div class="cf-meta">
-              <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#00FFEA;margin-bottom:4px">{{ slot.cat }}</div>
-              <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:15px">{{ slot.title }}</div>
             </div>
           </div>
         </sc-for>
@@ -572,24 +558,11 @@ html,body{margin:0;background:#050C0B}
             <div data-reveal class="cf-card">
               <video src="{{ slot.src }}" poster="{{ slot.poster }}" muted playsinline loop preload="none"></video>
               <div class="cf-grad"></div>
-              <div style="position:absolute;top:12px;left:12px;font-size:10px;letter-spacing:.08em;color:rgba(240,244,243,.8);border:1px solid rgba(240,244,243,.25);border-radius:100px;padding:3px 9px;background:rgba(5,12,11,.6)">{{ slot.ratio }}</div>
               <!-- Branded Play Button Overlay -->
               <div class="cf-play-btn" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:48px; height:48px; border-radius:50%; background:rgba(11, 24, 23, 0.65); border:1px solid rgba(0, 255, 234, 0.45); display:flex; align-items:center; justify-content:center; backdrop-filter:blur(8px); transition:all 0.3s ease; z-index:6; box-shadow:0 0 15px rgba(0,255,234,0.15);">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="transform:translateX(1px); transition:all 0.3s;">
                   <path d="M8 5V19L19 12L8 5Z" fill="#00FFEA"/>
                 </svg>
-              </div>
-              <div class="cf-hud-scanner">
-                <div class="hud-scanner-line"></div>
-                <div class="hud-corner top-left"></div>
-                <div class="hud-corner top-right"></div>
-                <div class="hud-corner bottom-left"></div>
-                <div class="hud-corner bottom-right"></div>
-                <div class="hud-text">AI SCAN // OK</div>
-              </div>
-              <div class="cf-meta">
-                <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#00FFEA;margin-bottom:4px">{{ slot.cat }}</div>
-                <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:15px">{{ slot.title }}</div>
               </div>
             </div>
           </sc-for>
@@ -601,29 +574,16 @@ html,body{margin:0;background:#050C0B}
         <h4 data-reveal style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:18px; color:#B5FF00; margin-bottom:16px; display:flex; align-items:center; gap:8px;">
           <span style="color:#00FFEA;">✦</span> {{ t.sections.sub_talkinghead }}
         </h4>
-        <div class="dnd-grid" style="grid-template-columns: repeat(2, 1fr); max-width: 800px; margin: 0 auto;">
+        <div class="dnd-grid-ugc">
           <sc-for list="{{ ugc_talkinghead }}" as="slot">
             <div data-reveal class="cf-card">
               <video src="{{ slot.src }}" poster="{{ slot.poster }}" muted playsinline loop preload="none"></video>
               <div class="cf-grad"></div>
-              <div style="position:absolute;top:12px;left:12px;font-size:10px;letter-spacing:.08em;color:rgba(240,244,243,.8);border:1px solid rgba(240,244,243,.25);border-radius:100px;padding:3px 9px;background:rgba(5,12,11,.6)">{{ slot.ratio }}</div>
               <!-- Branded Play Button Overlay -->
               <div class="cf-play-btn" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:48px; height:48px; border-radius:50%; background:rgba(11, 24, 23, 0.65); border:1px solid rgba(0, 255, 234, 0.45); display:flex; align-items:center; justify-content:center; backdrop-filter:blur(8px); transition:all 0.3s ease; z-index:6; box-shadow:0 0 15px rgba(0,255,234,0.15);">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="transform:translateX(1px); transition:all 0.3s;">
                   <path d="M8 5V19L19 12L8 5Z" fill="#00FFEA"/>
                 </svg>
-              </div>
-              <div class="cf-hud-scanner">
-                <div class="hud-scanner-line"></div>
-                <div class="hud-corner top-left"></div>
-                <div class="hud-corner top-right"></div>
-                <div class="hud-corner bottom-left"></div>
-                <div class="hud-corner bottom-right"></div>
-                <div class="hud-text">AI SCAN // OK</div>
-              </div>
-              <div class="cf-meta">
-                <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#00FFEA;margin-bottom:4px">{{ slot.cat }}</div>
-                <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:15px">{{ slot.title }}</div>
               </div>
             </div>
           </sc-for>
@@ -1049,23 +1009,23 @@ class Component extends DCLogic {
 
   animados = [
     {
-      cat_en: 'Fashion Film',
-      cat_es: 'Film de Moda',
-      title_en: 'Digital Campaign I',
-      title_es: 'Campaña Digital I',
+      cat_en: 'AI Animation',
+      cat_es: 'Animación IA',
+      title_en: 'Character Motion',
+      title_es: 'Movimiento de Personaje',
       ratio: '9:16',
-      src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781579277/hazh9zebjbwdqo6gztq9.mp4',
-      poster: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781579277/hazh9zebjbwdqo6gztq9.jpg',
+      src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781666589/asdfgbrl_pindown.io_1781666580_zgg3bz.mp4',
+      poster: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781666589/asdfgbrl_pindown.io_1781666580_zgg3bz.jpg',
       lang: 'both'
     },
     {
       cat_en: 'Fashion Film',
       cat_es: 'Film de Moda',
-      title_en: 'Digital Campaign II',
-      title_es: 'Campaña Digital II',
+      title_en: 'Digital Campaign I',
+      title_es: 'Campaña Digital I',
       ratio: '9:16',
-      src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781577274/ed8dbydtcowqcyhdxqss.mp4',
-      poster: 'https://res.cloudinary.com/drprrdhyp/image/upload/v1781577258/pynak6pw3yeqq2x8vshh.jpg',
+      src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781665806/versi%C3%B3n_A_yu7tmm.mp4',
+      poster: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781665806/versi%C3%B3n_A_yu7tmm.jpg',
       lang: 'both'
     },
     {
@@ -1074,18 +1034,8 @@ class Component extends DCLogic {
       title_en: 'Vigo Cinematic',
       title_es: 'Cinemática Vigo',
       ratio: '9:16',
-      src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781577298/iqlhuaboop5nuowdxain.mp4',
-      poster: 'https://res.cloudinary.com/drprrdhyp/image/upload/v1781577287/zccjaee6jgjgjjhhvika.jpg',
-      lang: 'both'
-    },
-    {
-      cat_en: 'AI Animation',
-      cat_es: 'Animación IA',
-      title_en: 'Character Motion',
-      title_es: 'Movimiento de Personaje',
-      ratio: '9:16',
-      src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781577218/tfyfh63rtbq0jb0vgxjs.mp4',
-      poster: 'https://res.cloudinary.com/drprrdhyp/image/upload/v1781577282/mdaiy3le6wjp1dqz5icr.jpg',
+      src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781666154/final_sssyue.mp4',
+      poster: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781666154/final_sssyue.jpg',
       lang: 'both'
     }
   ];
@@ -1098,19 +1048,19 @@ class Component extends DCLogic {
       title_en: 'Lifestyle Hook',
       title_es: 'Gancho de Estilo de Vida',
       ratio: '9:16',
-      src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781579242/qfvjuoflchvapjwsoc7h.mp4',
-      poster: 'https://res.cloudinary.com/drprrdhyp/image/upload/v1781577225/bbs0lg6ct4qn1dw9joak.jpg',
+      src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781577302/lczhdasuh2jnj0obfh4l.mp4',
+      poster: 'https://res.cloudinary.com/drprrdhyp/image/upload/v1781577117/kbj3rbrkcpt5ykpcm2vv.jpg',
       lang: 'both',
       subcat: 'podcast'
     },
     {
       cat_en: 'AI Podcast',
       cat_es: 'AI Podcast',
-      title_en: 'Growth Clip',
-      title_es: 'Clip de Crecimiento',
+      title_en: 'Podcast Final',
+      title_es: 'Podcast Final',
       ratio: '9:16',
-      src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781577305/qsepptch1j5ilhty788i.mp4',
-      poster: 'https://res.cloudinary.com/drprrdhyp/image/upload/v1781577304/g74pes3rn8hjcgycluik.jpg',
+      src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781579263/np3amtigc9k4i3a3pp1k.mp4',
+      poster: 'https://res.cloudinary.com/drprrdhyp/image/upload/v1781577280/yjfjvnhw9n4rm2iwp8xg.jpg',
       lang: 'both',
       subcat: 'podcast'
     },
@@ -1134,6 +1084,17 @@ class Component extends DCLogic {
       ratio: '9:16',
       src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781577252/vvsvzcgvvlwbvtvhxr1s.mp4',
       poster: 'https://res.cloudinary.com/drprrdhyp/image/upload/v1781577233/b1psuxxpakkqhnkd190z.jpg',
+      lang: 'both',
+      subcat: 'talkinghead'
+    },
+    {
+      cat_en: 'UGC Talking Head',
+      cat_es: 'UGC Talking Head',
+      title_en: 'Growth Clip',
+      title_es: 'Clip de Crecimiento',
+      ratio: '9:16',
+      src: 'https://res.cloudinary.com/drprrdhyp/video/upload/v1781577305/qsepptch1j5ilhty788i.mp4',
+      poster: 'https://res.cloudinary.com/drprrdhyp/image/upload/v1781577304/g74pes3rn8hjcgycluik.jpg',
       lang: 'both',
       subcat: 'talkinghead'
     },
